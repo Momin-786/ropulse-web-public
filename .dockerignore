@@ -1,0 +1,11 @@
+node_modules
+.next
+.git
+.env*
+tmp
+.npm-cache
+test-results
+ROPULSE_Complete_Launch_Brand_Kit
+*.pdf
+*.zip
+docs/superpowers

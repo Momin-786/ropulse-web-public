@@ -1,0 +1,43 @@
+name: Website checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+      DOCS_REVIEW_MODE: 'false'
+      SITE_INDEXABLE: 'false'
+      PLAYWRIGHT_CHANNEL: chromium
+      TEST_PRODUCTION: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run check:security
+      - run: npm audit --omit=dev
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - name: Production browser checks
+        shell: bash
+        run: |
+          npm start > /tmp/ropulse-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:3000 > /dev/null; then break; fi
+            sleep 1
+          done
+          npm run test:e2e
+          npm run test:motion -- http://127.0.0.1:3000
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-evidence
+          path: tmp/qa/
