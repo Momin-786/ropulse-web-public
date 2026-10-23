@@ -1,0 +1,5 @@
+# Merge (do not replace) these entries in your existing pubspec.yaml
+# Add flutter_svg to dependencies and flutter_launcher_icons to dev_dependencies.
+flutter:
+  assets:
+    - assets/branding/

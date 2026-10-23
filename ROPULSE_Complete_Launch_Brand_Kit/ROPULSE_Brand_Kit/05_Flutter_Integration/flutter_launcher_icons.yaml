@@ -1,0 +1,21 @@
+# Add flutter_launcher_icons to dev_dependencies, then run:
+# dart run flutter_launcher_icons -f flutter_launcher_icons.yaml
+# Place this config beside pubspec.yaml and copy assets/branding first.
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/branding/app-icon-1024.png"
+  min_sdk_android: 21
+  remove_alpha_ios: true
+  web:
+    generate: true
+    image_path: "assets/branding/app-icon-1024.png"
+    background_color: "#340A30"
+    theme_color: "#340A30"
+  windows:
+    generate: true
+    image_path: "assets/branding/app-icon-1024.png"
+    icon_size: 256
+  macos:
+    generate: true
+    image_path: "assets/branding/app-icon-1024.png"

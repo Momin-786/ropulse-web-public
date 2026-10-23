@@ -1,0 +1,2 @@
+/* Inter is self-hosted. Manrope uses the declared system fallback until an approved asset is supplied. */
+@font-face{font-family:Inter;font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/inter-latin.woff') format('woff')}
