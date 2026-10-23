@@ -32,7 +32,7 @@ test('publication requires reviewer, date and release', () => {
 });
 test('chapter links resolve through known slugs and unavailable links return to the manual', () => {
   assert.equal(articlePath('05-register-and-checkout.md', true), '/docs/register-and-checkout');
-  assert.equal(articlePath('user-guide/05-register-and-checkout.md', false), '/docs');
+  assert.equal(articlePath('user-guide/05-register-and-checkout.md', false), '/docs/register-and-checkout');
   assert.equal(safeLink('user-guide/05-register-and-checkout.md#charge-and-settle', true), '/docs/register-and-checkout#charge-and-settle');
   assert.equal(safeLink('README.md', true), '/docs');
 });

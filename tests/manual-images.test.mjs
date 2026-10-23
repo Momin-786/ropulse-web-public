@@ -20,8 +20,8 @@ test('illustration overlays attach to real tasks without changing release approv
   assert.ok(register.source.includes('![RoPulse Register'));
   assert.ok(register.source.includes('/images/product/checkout-1440.png'));
   assert.ok(register.headings.some(item => item.id === 'register-on-a-smaller-screen'));
-  assert.equal(register.status, 'review');
-  assert.equal(getArticle('register-and-checkout', false), null);
+  assert.equal(register.status, 'published');
+  assert.ok(getArticle('register-and-checkout', false));
 });
 test('public draft visibility is separate from site-wide review and indexing', () => {
   const publicDrafts = getSite({ SITE_URL: 'https://ropulse.io', SITE_INDEXABLE: 'true', DOCS_REVIEW_MODE: 'false' });

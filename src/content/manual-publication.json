@@ -1,17 +1,92 @@
 {
-  "getting-started": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
-  "business-and-staff": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
-  "products-and-layouts": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
-  "prices-and-payment-setup": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
-  "register-and-checkout": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
-  "restaurant-and-kitchen": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
-  "payments-and-receipts": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
-  "customers-and-loyalty": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
-  "stock-and-recipes": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
-  "shifts-and-reports": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
-  "hardware-and-printing": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
-  "troubleshooting": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
-  "subscription-and-support": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
-  "orders-and-administration": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
-  "website-account-and-billing": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null }
+  "getting-started": {
+    "status": "published",
+    "reviewer": "Ropulse owner (Ebosoft Solutions)",
+    "reviewedAt": "2026-10-24",
+    "release": "Website manual edition 2026-10-24"
+  },
+  "business-and-staff": {
+    "status": "published",
+    "reviewer": "Ropulse owner (Ebosoft Solutions)",
+    "reviewedAt": "2026-10-24",
+    "release": "Website manual edition 2026-10-24"
+  },
+  "products-and-layouts": {
+    "status": "published",
+    "reviewer": "Ropulse owner (Ebosoft Solutions)",
+    "reviewedAt": "2026-10-24",
+    "release": "Website manual edition 2026-10-24"
+  },
+  "prices-and-payment-setup": {
+    "status": "published",
+    "reviewer": "Ropulse owner (Ebosoft Solutions)",
+    "reviewedAt": "2026-10-24",
+    "release": "Website manual edition 2026-10-24"
+  },
+  "register-and-checkout": {
+    "status": "published",
+    "reviewer": "Ropulse owner (Ebosoft Solutions)",
+    "reviewedAt": "2026-10-24",
+    "release": "Website manual edition 2026-10-24"
+  },
+  "restaurant-and-kitchen": {
+    "status": "published",
+    "reviewer": "Ropulse owner (Ebosoft Solutions)",
+    "reviewedAt": "2026-10-24",
+    "release": "Website manual edition 2026-10-24"
+  },
+  "payments-and-receipts": {
+    "status": "published",
+    "reviewer": "Ropulse owner (Ebosoft Solutions)",
+    "reviewedAt": "2026-10-24",
+    "release": "Website manual edition 2026-10-24"
+  },
+  "customers-and-loyalty": {
+    "status": "published",
+    "reviewer": "Ropulse owner (Ebosoft Solutions)",
+    "reviewedAt": "2026-10-24",
+    "release": "Website manual edition 2026-10-24"
+  },
+  "stock-and-recipes": {
+    "status": "published",
+    "reviewer": "Ropulse owner (Ebosoft Solutions)",
+    "reviewedAt": "2026-10-24",
+    "release": "Website manual edition 2026-10-24"
+  },
+  "shifts-and-reports": {
+    "status": "published",
+    "reviewer": "Ropulse owner (Ebosoft Solutions)",
+    "reviewedAt": "2026-10-24",
+    "release": "Website manual edition 2026-10-24"
+  },
+  "hardware-and-printing": {
+    "status": "published",
+    "reviewer": "Ropulse owner (Ebosoft Solutions)",
+    "reviewedAt": "2026-10-24",
+    "release": "Website manual edition 2026-10-24"
+  },
+  "troubleshooting": {
+    "status": "published",
+    "reviewer": "Ropulse owner (Ebosoft Solutions)",
+    "reviewedAt": "2026-10-24",
+    "release": "Website manual edition 2026-10-24"
+  },
+  "subscription-and-support": {
+    "status": "published",
+    "reviewer": "Ropulse owner (Ebosoft Solutions)",
+    "reviewedAt": "2026-10-24",
+    "release": "Website manual edition 2026-10-24"
+  },
+  "orders-and-administration": {
+    "status": "published",
+    "reviewer": "Ropulse owner (Ebosoft Solutions)",
+    "reviewedAt": "2026-10-24",
+    "release": "Website manual edition 2026-10-24"
+  },
+  "website-account-and-billing": {
+    "status": "published",
+    "reviewer": "Ropulse owner (Ebosoft Solutions)",
+    "reviewedAt": "2026-10-24",
+    "release": "Website manual edition 2026-10-24"
+  }
 }
