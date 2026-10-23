@@ -1,0 +1,839 @@
+{
+  "/images/product/desktop-light.png": [
+    {
+      "number": 1,
+      "title": "Find a product",
+      "detail": "Use the product search or choose a category.",
+      "from": [
+        1110,
+        105
+      ],
+      "to": [
+        970,
+        160
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Add the item",
+      "detail": "Select a product and check any required choices.",
+      "from": [
+        1060,
+        755
+      ],
+      "to": [
+        1090,
+        520
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Review the running order",
+      "detail": "Confirm quantities, options and the total before charging.",
+      "from": [
+        110,
+        360
+      ],
+      "to": [
+        150,
+        120
+      ]
+    }
+  ],
+  "/images/product/mobile-light.png": [
+    {
+      "number": 1,
+      "title": "Search the catalog",
+      "detail": "Find the required item or use the category buttons.",
+      "from": [
+        345,
+        103
+      ],
+      "to": [
+        200,
+        152
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Select an item",
+      "detail": "Review its price and required choices.",
+      "from": [
+        320,
+        740
+      ],
+      "to": [
+        280,
+        600
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Open the cart",
+      "detail": "Review the complete order before checkout.",
+      "from": [
+        230,
+        750
+      ],
+      "to": [
+        185,
+        820
+      ]
+    }
+  ],
+  "/images/product/checkout-1440.png": [
+    {
+      "number": 1,
+      "title": "Choose the payment method",
+      "detail": "Confirm the method matches the money actually received.",
+      "from": [
+        1130,
+        250
+      ],
+      "to": [
+        750,
+        165
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Enter the amount",
+      "detail": "Check the cash amount before adding the tender.",
+      "from": [
+        1140,
+        320
+      ],
+      "to": [
+        850,
+        430
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Check the remaining balance",
+      "detail": "Read Due, Tendered and Remaining before completing the sale.",
+      "from": [
+        1210,
+        700
+      ],
+      "to": [
+        1380,
+        803
+      ]
+    }
+  ],
+  "/images/product/checkout-390.png": [
+    {
+      "number": 1,
+      "title": "Choose the method",
+      "detail": "Confirm the selected tender matches the money received.",
+      "from": [
+        320,
+        95
+      ],
+      "to": [
+        285,
+        245
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Enter the cash received",
+      "detail": "Check the amount before adding the tender.",
+      "from": [
+        340,
+        445
+      ],
+      "to": [
+        180,
+        580
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Read the balance",
+      "detail": "Check Due, Tendered and Remaining before completing payment.",
+      "from": [
+        180,
+        675
+      ],
+      "to": [
+        340,
+        745
+      ]
+    }
+  ],
+  "/images/product/floor-1440.png": [
+    {
+      "number": 1,
+      "title": "Read table status",
+      "detail": "Use the status legend to distinguish available, occupied and reserved tables.",
+      "from": [
+        710,
+        70
+      ],
+      "to": [
+        330,
+        100
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Choose the correct table",
+      "detail": "Confirm the table name and service context before adding an order.",
+      "from": [
+        710,
+        225
+      ],
+      "to": [
+        290,
+        205
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Check the service area",
+      "detail": "Confirm whether the table belongs to the main floor or another area, such as the terrace.",
+      "from": [
+        720,
+        410
+      ],
+      "to": [
+        110,
+        370
+      ]
+    }
+  ],
+  "/images/product/backoffice-dashboard.png": [
+    {
+      "number": 1,
+      "title": "Confirm the branch",
+      "detail": "Check the selected branch before reading figures or changing settings.",
+      "from": [
+        1010,
+        120
+      ],
+      "to": [
+        1140,
+        34
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Read the headline figures",
+      "detail": "Review sales and order context together; these are sample totals.",
+      "from": [
+        680,
+        240
+      ],
+      "to": [
+        440,
+        225
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Review the trend",
+      "detail": "Check the chart period before comparing performance.",
+      "from": [
+        1080,
+        490
+      ],
+      "to": [
+        1120,
+        610
+      ]
+    }
+  ],
+  "/images/product/backoffice-staff.png": [
+    {
+      "number": 1,
+      "title": "Check the staff record",
+      "detail": "Verify the person, status and assigned role.",
+      "from": [
+        1040,
+        490
+      ],
+      "to": [
+        910,
+        310
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Invite a staff member",
+      "detail": "Use the invitation workflow and assign only the access needed.",
+      "from": [
+        1130,
+        810
+      ],
+      "to": [
+        1310,
+        930
+      ]
+    }
+  ],
+  "/images/product/backoffice-products.png": [
+    {
+      "number": 1,
+      "title": "Choose a setup tab",
+      "detail": "Categories organize the catalog; Products and Modifiers manage their own records.",
+      "from": [
+        760,
+        110
+      ],
+      "to": [
+        490,
+        110
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Add a category",
+      "detail": "Create a clear category before organizing its products.",
+      "from": [
+        1110,
+        215
+      ],
+      "to": [
+        1340,
+        259
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Check availability",
+      "detail": "Read the sales-channel labels and active switch for the intended category.",
+      "from": [
+        850,
+        800
+      ],
+      "to": [
+        1315,
+        700
+      ]
+    }
+  ],
+  "/images/product/backoffice-customers.png": [
+    {
+      "number": 1,
+      "title": "Find the correct person",
+      "detail": "Search and compare identifying details before selecting a record.",
+      "from": [
+        930,
+        160
+      ],
+      "to": [
+        650,
+        173
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Compare history and tags",
+      "detail": "Check order history, value and tags to distinguish similar records.",
+      "from": [
+        1060,
+        700
+      ],
+      "to": [
+        1000,
+        284
+      ]
+    }
+  ],
+  "/images/product/backoffice-stock.png": [
+    {
+      "number": 1,
+      "title": "Confirm the stock branch",
+      "detail": "Stock quantities belong to the selected branch.",
+      "from": [
+        1070,
+        145
+      ],
+      "to": [
+        1280,
+        138
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Read quantity on hand",
+      "detail": "Check the product, quantity and last update before making a correction.",
+      "from": [
+        730,
+        600
+      ],
+      "to": [
+        850,
+        347
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Choose Adjust or Set",
+      "detail": "Adjust records a difference; Set records a counted total. Follow the matching instructions below.",
+      "from": [
+        1110,
+        600
+      ],
+      "to": [
+        1300,
+        395
+      ]
+    }
+  ],
+  "/images/product/backoffice-reports.png": [
+    {
+      "number": 1,
+      "title": "Choose the date range",
+      "detail": "Confirm the period and displayed time zone before comparing numbers.",
+      "from": [
+        1100,
+        220
+      ],
+      "to": [
+        730,
+        314
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Choose the report",
+      "detail": "Select the report that answers the question you are investigating.",
+      "from": [
+        1040,
+        550
+      ],
+      "to": [
+        490,
+        430
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Export the current selection",
+      "detail": "Check the branch, report and period before exporting.",
+      "from": [
+        1120,
+        75
+      ],
+      "to": [
+        1350,
+        140
+      ]
+    }
+  ],
+  "/images/product/backoffice-hardware.png": [
+    {
+      "number": 1,
+      "title": "Review printer status",
+      "detail": "Check the configured connection and enabled state. This is not proof of a physical print.",
+      "from": [
+        990,
+        270
+      ],
+      "to": [
+        1090,
+        435
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Check routing separately",
+      "detail": "Review each category’s primary printer and fallback.",
+      "from": [
+        1080,
+        680
+      ],
+      "to": [
+        780,
+        835
+      ]
+    }
+  ],
+  "/images/product/backoffice-payments.png": [
+    {
+      "number": 1,
+      "title": "Check branch and currency",
+      "detail": "Verify the branch and its base currency before changing payment settings.",
+      "from": [
+        1040,
+        380
+      ],
+      "to": [
+        500,
+        392
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Review enabled methods",
+      "detail": "Use each method’s settings and switch deliberately. A visible logo does not confirm an automatic provider integration.",
+      "from": [
+        1040,
+        720
+      ],
+      "to": [
+        1330,
+        648
+      ]
+    }
+  ],
+  "/images/product/backoffice-orders.png": [
+    {
+      "number": 1,
+      "title": "Choose the branch and status",
+      "detail": "Narrow the list to the relevant branch and order state.",
+      "from": [
+        1120,
+        265
+      ],
+      "to": [
+        890,
+        185
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Follow the original reference",
+      "detail": "Match the order reference and details before investigating or changing an order.",
+      "from": [
+        730,
+        700
+      ],
+      "to": [
+        360,
+        460
+      ]
+    }
+  ],
+  "/images/product/backoffice-shifts.png": [
+    {
+      "number": 1,
+      "title": "Review the open shift",
+      "detail": "Confirm the cashier, opening time and opening cash before recording a movement.",
+      "from": [
+        1010,
+        270
+      ],
+      "to": [
+        600,
+        292
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Record cash or close carefully",
+      "detail": "Use the appropriate action and reconcile the counted cash before closing.",
+      "from": [
+        830,
+        390
+      ],
+      "to": [
+        510,
+        343
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Investigate differences",
+      "detail": "Review closing values and variances against the original shift records.",
+      "from": [
+        1000,
+        790
+      ],
+      "to": [
+        1170,
+        645
+      ]
+    }
+  ],
+  "/images/product/printer-receipt-setup.png": [
+    {
+      "number": 1,
+      "title": "Select this device’s printer",
+      "detail": "Choose the installed or paired connection for this till. These entries are examples.",
+      "from": [
+        670,
+        330
+      ],
+      "to": [
+        970,
+        398
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Match the paper width",
+      "detail": "Select the format matching the physical roll and inspect a test copy.",
+      "from": [
+        1240,
+        330
+      ],
+      "to": [
+        1240,
+        398
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Test the real output",
+      "detail": "After installation, print an approved test and check the paper. No physical test was run for this image.",
+      "from": [
+        1140,
+        650
+      ],
+      "to": [
+        1000,
+        590
+      ]
+    }
+  ],
+  "/images/product/printer-network-printer.png": [
+    {
+      "number": 1,
+      "title": "Give the connection a clear name",
+      "detail": "Use a name staff can recognize on this station.",
+      "from": [
+        1100,
+        400
+      ],
+      "to": [
+        930,
+        422
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Enter the actual printer host",
+      "detail": "The address shown is a documentation example. Do not copy it into your real setup.",
+      "from": [
+        1110,
+        490
+      ],
+      "to": [
+        930,
+        478
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Confirm the configured port",
+      "detail": "9100 is the app default; use the port approved for your printer.",
+      "from": [
+        1100,
+        590
+      ],
+      "to": [
+        930,
+        534
+      ]
+    }
+  ],
+  "/images/product/printer-logical-printer.png": [
+    {
+      "number": 1,
+      "title": "Name the logical destination",
+      "detail": "Use the printer name, station code and location to describe the preparation area.",
+      "from": [
+        1140,
+        665
+      ],
+      "to": [
+        1013,
+        665
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Assign the print-station device",
+      "detail": "Select the actual active device that will deliver this destination’s jobs.",
+      "from": [
+        1140,
+        818
+      ],
+      "to": [
+        1013,
+        832
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Match ticket paper width",
+      "detail": "Choose the physical printer’s 58 mm or 80 mm roll before saving.",
+      "from": [
+        1140,
+        920
+      ],
+      "to": [
+        1013,
+        890
+      ]
+    }
+  ],
+  "/images/product/printer-kot-routing.png": [
+    {
+      "number": 1,
+      "title": "Choose the primary destination",
+      "detail": "Each preparation category needs its intended logical kitchen printer.",
+      "from": [
+        760,
+        100
+      ],
+      "to": [
+        775,
+        238
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Review category fallback",
+      "detail": "A category fallback does not configure the other station’s physical connection.",
+      "from": [
+        1140,
+        100
+      ],
+      "to": [
+        1180,
+        294
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Check every required category",
+      "detail": "No printer means this example category has no destination. Review all categories before service.",
+      "from": [
+        350,
+        595
+      ],
+      "to": [
+        335,
+        466
+      ]
+    }
+  ],
+  "/images/product/printer-device-bindings.png": [
+    {
+      "number": 1,
+      "title": "Choose the physical ESC/POS connection",
+      "detail": "Do this on the assigned station, not a different manager’s computer.",
+      "from": [
+        640,
+        160
+      ],
+      "to": [
+        700,
+        248
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Set an approved local fallback",
+      "detail": "This fallback belongs to the physical binding and differs from category fallback.",
+      "from": [
+        1030,
+        160
+      ],
+      "to": [
+        1080,
+        248
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Check the local paper format",
+      "detail": "Save the real thermal width for this station’s connection.",
+      "from": [
+        1285,
+        160
+      ],
+      "to": [
+        1305,
+        248
+      ]
+    }
+  ],
+  "/images/product/printer-kot-history.png": [
+    {
+      "number": 1,
+      "title": "Open the original job",
+      "detail": "Details identifies the order, round, destination and attempts.",
+      "from": [
+        650,
+        200
+      ],
+      "to": [
+        400,
+        166
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Recognize uncertain delivery",
+      "detail": "Check printer can mean bytes already arrived. Inspect the printer and speak to kitchen staff.",
+      "from": [
+        1240,
+        420
+      ],
+      "to": [
+        1290,
+        487
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Review before retrying",
+      "detail": "Use an authorized retry on the existing job after checking output. Do not send the order repeatedly.",
+      "from": [
+        825,
+        640
+      ],
+      "to": [
+        1040,
+        602
+      ]
+    }
+  ],
+  "/images/product/printer-kot-details.png": [
+    {
+      "number": 1,
+      "title": "Keep the job and order references",
+      "detail": "Use these references when matching the kitchen paper or contacting support.",
+      "from": [
+        210,
+        355
+      ],
+      "to": [
+        380,
+        354
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Check assignment and attempts",
+      "detail": "This pending example has no assigned device or attempts. Resolve the actual station setup.",
+      "from": [
+        1150,
+        455
+      ],
+      "to": [
+        630,
+        454
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Compare the immutable ticket items",
+      "detail": "Match quantities, modifiers, notes and the round before creating another copy.",
+      "from": [
+        1130,
+        635
+      ],
+      "to": [
+        590,
+        605
+      ]
+    }
+  ]
+}

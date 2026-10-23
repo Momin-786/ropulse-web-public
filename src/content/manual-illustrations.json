@@ -1,0 +1,180 @@
+{
+  "products-and-layouts": [
+    {
+      "afterHeading": null,
+      "src": "/images/product/desktop-light.png",
+      "alt": "The configured product catalog in the actual Register",
+      "caption": "Register example: categories, product photos and prices after configuration. This is the selling screen, not the Backoffice editor."
+    },
+    {
+      "afterHeading": "Organize categories and products",
+      "src": "/images/product/backoffice-products.png",
+      "alt": "Actual Backoffice categories, sales channels and active switches",
+      "caption": "Catalog configuration happens in Backoffice. Categories, Products and Modifiers have separate tabs."
+    }
+  ],
+  "register-and-checkout": [
+    {
+      "afterHeading": "Add products and choices",
+      "src": "/images/product/desktop-light.png",
+      "alt": "RoPulse Register with a sample order and product categories",
+      "caption": "The running order is on the left, item quantity controls in the middle, and the product catalog on the right."
+    },
+    {
+      "afterHeading": "Charge and settle",
+      "src": "/images/product/checkout-1440.png",
+      "alt": "Cash checkout before a payment has been added",
+      "caption": "Cash is selected, Rs650 is due, and no tender has been added. Method logos do not establish automatic provider processing."
+    },
+    {
+      "appendHeading": "Register on a smaller screen",
+      "text": "The Register adapts to the available space. Check the selected branch and order reference, and review the cart before charging. Panel placement can differ from the desktop example. Confirm that your installed release supports the intended device.",
+      "src": "/images/product/mobile-light.png",
+      "alt": "Compact Register layout using the same sample catalog",
+      "caption": "Actual Register at phone width. These are sample products and orders."
+    }
+  ],
+  "restaurant-and-kitchen": [
+    {
+      "afterHeading": "Prepare service and tables",
+      "src": "/images/product/floor-1440.png",
+      "alt": "RoPulse floor view with available, occupied and reserved sample tables",
+      "caption": "Table names, seating and status help staff identify the service context. These are demonstration tables."
+    }
+  ],
+  "payments-and-receipts": [
+    {
+      "afterHeading": "Cash and split tender",
+      "src": "/images/product/checkout-1440.png",
+      "alt": "The actual checkout with cash entry and due, tendered and remaining amounts",
+      "caption": "Read Due, Tendered and Remaining before completing payment. This example is unpaid; it does not show a completed provider transaction."
+    },
+    {
+      "appendHeading": "Checkout on a smaller screen",
+      "text": "Payment controls move to fit the device. Follow the on-screen steps and review the original order and remaining amount before settling. A smaller layout does not change the need to verify money and avoid duplicate requests.",
+      "src": "/images/product/checkout-390.png",
+      "alt": "Actual cash checkout at phone width",
+      "caption": "Compact cash tender example. No money has been collected in this demonstration."
+    },
+    {
+      "afterHeading": "Manually recorded card, wallet and transfer payments",
+      "src": "/images/product/backoffice-payments.png",
+      "alt": "The configured branch payment methods and reference requirements",
+      "caption": "Check whether a method is manually recorded or integrated in your actual release. This fixture makes no provider certification claim."
+    }
+  ],
+  "getting-started": [
+    {
+      "afterHeading": "Choose the right working area",
+      "src": "/images/product/backoffice-dashboard.png",
+      "alt": "The actual Backoffice dashboard and branch selector",
+      "caption": "Management workspace with a selected demonstration branch. Sales figures are seeded examples, not customer results."
+    }
+  ],
+  "business-and-staff": [
+    {
+      "afterHeading": "Add staff and prepare their access",
+      "src": "/images/product/backoffice-staff.png",
+      "alt": "Backoffice staff directory showing roles, status and the invitation action",
+      "caption": "Review the correct person and role before changing access. All names and contacts here are seeded demonstration records."
+    }
+  ],
+  "prices-and-payment-setup": [
+    {
+      "afterHeading": "Prepare accepted payment methods",
+      "src": "/images/product/backoffice-payments.png",
+      "alt": "Backoffice branch payment setup with currency and method settings",
+      "caption": "Configuration example only. Enabled methods and provider logos do not prove automatic payment processing or provider approval."
+    }
+  ],
+  "customers-and-loyalty": [
+    {
+      "afterHeading": "Find and maintain the right customer",
+      "src": "/images/product/backoffice-customers.png",
+      "alt": "Customer directory with search, history, tags and identifying details",
+      "caption": "Compare identifying details before selecting or merging records. Names, phone numbers and emails shown are seeded app fixtures."
+    }
+  ],
+  "stock-and-recipes": [
+    {
+      "afterHeading": "Read retail quantity on hand",
+      "src": "/images/product/backoffice-stock.png",
+      "alt": "Branch retail stock with quantities, Adjust and Set actions",
+      "caption": "Read the branch and product first. Adjust changes a quantity by a difference; Set records an absolute counted quantity."
+    }
+  ],
+  "shifts-and-reports": [
+    {
+      "afterHeading": "Record cash movements correctly",
+      "src": "/images/product/backoffice-shifts.png",
+      "alt": "Actual Backoffice open shift, cash actions and shift history",
+      "caption": "This management screen reconciles and closes a branch shift. Opening the shift happens at the Register in the supported workflow."
+    },
+    {
+      "afterHeading": "Read the dashboard and reports",
+      "src": "/images/product/backoffice-reports.png",
+      "alt": "Report selection with date range, report types and export",
+      "caption": "Select the report, branch and period deliberately. This example displays UTC and uses sample records."
+    }
+  ],
+  "hardware-and-printing": [
+    {
+      "afterHeading": "3. Connect a Windows printer",
+      "src": "/images/product/printer-receipt-setup.png",
+      "alt": "Receipt Center local printer selection, paper size and connection actions",
+      "caption": "Current app path: Receipt Center → Preview & Test → Printer on this register. This is the printer setup panel referred to in the steps. Choices are local to this installation; Ready is not proof of paper output."
+    },
+    {
+      "afterHeading": "4. Connect a network ESC/POS printer",
+      "src": "/images/product/printer-network-printer.png",
+      "alt": "Add network ESC/POS printer dialog with name, host and port",
+      "caption": "Example configuration only. The 192.0.2.51 TEST-NET address is not a real printer address; replace it with the actual approved host and port. No connection or print was attempted."
+    },
+    {
+      "afterHeading": "7. Prepare kitchen destinations in Backoffice",
+      "src": "/images/product/printer-logical-printer.png",
+      "alt": "Add kitchen printer with station code, location, device assignment and paper width",
+      "caption": "Create a logical destination and assign its approved active station. This unsaved demonstration uses REG-001 as an example; choose your actual station. Physical connection remains local to that device."
+    },
+    {
+      "afterHeading": "8. Route product categories to the kitchen",
+      "src": "/images/product/printer-kot-routing.png",
+      "alt": "Category KOT routing with primary and fallback printer choices",
+      "caption": "Routing sends categories to logical destinations. Categories showing No printer in this fixture are not configured to route; complete each category required by your branch."
+    },
+    {
+      "afterHeading": "9. Bind logical printers to physical printers on the station",
+      "src": "/images/product/printer-device-bindings.png",
+      "alt": "This-device kitchen bindings with physical printer, fallback and paper choices",
+      "caption": "These are device-local bindings with example network entries. A logical routing name is separate from its physical connection. System/PDF printers cannot be used for raw KOT bytes."
+    },
+    {
+      "afterHeading": "11. Read KOT status and recover safely",
+      "src": "/images/product/printer-kot-details.png",
+      "alt": "Original KOT details with job reference, order, round, attempts and ticket items",
+      "caption": "Pending sample job: no station/device or print attempt is recorded here. Investigate those fields and the physical output before retrying; this is not a completed installation."
+    },
+    {
+      "afterHeading": "13. Troubleshooting",
+      "src": "/images/product/printer-kot-history.png",
+      "alt": "KOT queue showing pending, printed and uncertain delivery examples",
+      "caption": "Check printer means an uncertain send in this example. Inspect the existing job and ask the kitchen before an authorized retry. Reprint and cancellation create additional ticket records; they do not take or reverse a payment."
+    }
+  ],
+  "troubleshooting": [
+    {
+      "afterHeading": "If a product or payment method is missing",
+      "src": "/images/product/backoffice-products.png",
+      "alt": "Catalog category channels and inactive category in Backoffice",
+      "caption": "One place to investigate missing items: confirm the category, active state and intended sales channel, then follow the checks below."
+    }
+  ],
+  "orders-and-administration": [
+    {
+      "afterHeading": "Find an existing order",
+      "src": "/images/product/backoffice-orders.png",
+      "alt": "Actual Backoffice order list with status filters and order references",
+      "caption": "Search the original order in the selected branch. These sample records do not establish live endpoint availability for every installed release."
+    }
+  ]
+}

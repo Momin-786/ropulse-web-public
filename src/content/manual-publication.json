@@ -1,0 +1,17 @@
+{
+  "getting-started": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
+  "business-and-staff": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
+  "products-and-layouts": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
+  "prices-and-payment-setup": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
+  "register-and-checkout": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
+  "restaurant-and-kitchen": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
+  "payments-and-receipts": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
+  "customers-and-loyalty": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
+  "stock-and-recipes": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
+  "shifts-and-reports": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
+  "hardware-and-printing": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
+  "troubleshooting": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
+  "subscription-and-support": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
+  "orders-and-administration": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null },
+  "website-account-and-billing": { "status": "review", "reviewer": null, "reviewedAt": null, "release": null }
+}

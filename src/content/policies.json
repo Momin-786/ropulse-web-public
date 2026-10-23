@@ -1,0 +1,5 @@
+{
+  "terms": { "title": "Terms of service", "approved": false, "reviewedAt": null, "body": "" },
+  "privacy": { "title": "Privacy notice", "approved": false, "reviewedAt": null, "body": "" },
+  "billing-refunds": { "title": "Billing, cancellation & refunds", "approved": false, "reviewedAt": null, "body": "" }
+}

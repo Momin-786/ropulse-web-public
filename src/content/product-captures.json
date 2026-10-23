@@ -1,0 +1,358 @@
+{
+  "capturedAt": "2026-10-20T20:01:07.145Z",
+  "sourceCommit": "a805e0cbb98d07b9b364820cb45c06406cd78b75",
+  "appVersion": "0.1.0+1",
+  "method": "Flutter widget rendering from isolated app source snapshot",
+  "test": "test/register_redesign_test.dart",
+  "fixtureData": true,
+  "pixelsRetouched": false,
+  "verification": "59 register and payment widget tests passed; no live backend or physical hardware certification",
+  "captures": [
+    {
+      "file": "/images/product/desktop-light.png",
+      "sha256": "8df11939096082495458d0bae1264f532e7cbbfe9b0d05f5ce53990698cf2181",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "/images/product/desktop-dark.png",
+      "sha256": "15fabfd7be08193c2dfae9b0a24a8948760cb5008fa644b1c812753561fdcd4c",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "/images/product/mobile-light.png",
+      "sha256": "3e03ec095906f3c27a83c75ea2ccb868fea283722bcbd2e25d156b9667a36047",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "file": "/images/product/floor-1440.png",
+      "sha256": "d1ccd85f709174595180e3001af0e63898e2677c3f9c384a6cce980aa53a0a2e",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "/images/product/checkout-1440.png",
+      "sha256": "39c367705437ea3d6af8710992953c2e3a218c40348e2e63dcbae295ac9d865f",
+      "width": 1440,
+      "height": 900,
+      "capturedAt": "2026-10-21T10:04:39.967Z",
+      "captureTest": "test/pay_test.dart",
+      "captureOverride": "Development banner disabled; preview font override preserves original chip label color",
+      "verification": "Run capture tests and record their actual result in docs/WEBSITE_QA.md"
+    },
+    {
+      "file": "/images/product/checkout-390.png",
+      "sha256": "49a70e26c7499b346799022756abf2b5a37aa6cbc6569e281a166b669d86a96b",
+      "width": 390,
+      "height": 844,
+      "capturedAt": "2026-10-21T10:04:39.970Z",
+      "captureTest": "test/pay_test.dart",
+      "captureOverride": "Development banner disabled; preview font override preserves original chip label color",
+      "verification": "Run capture tests and record their actual result in docs/WEBSITE_QA.md"
+    },
+    {
+      "file": "/images/product/backoffice-dashboard.png",
+      "sha256": "aec987d9475a177ee3af1f83b863bb4120ea425ab1bb8bb5a451407749e0ac96",
+      "width": 1440,
+      "height": 1000,
+      "capturedAt": "2026-10-21T15:56:18.185Z",
+      "captureTest": "test/website_backoffice_capture_test.dart",
+      "fixtureData": true,
+      "sourceCommit": "a805e0cbb98d07b9b364820cb45c06406cd78b75",
+      "captureOverride": "Segoe UI font family specified for test rendering, including typography and dashboard chart labels; development banner disabled. Real app widgets with seeded repositories.",
+      "verification": "9-screen capture suite passed; additional Orders capture passed separately. No live backend, provider or hardware certification"
+    },
+    {
+      "file": "/images/product/backoffice-staff.png",
+      "sha256": "f57e3ff2a1cecb3a337ad3fc76a75710031ff11934cddb077cb89603d3136470",
+      "width": 1440,
+      "height": 1000,
+      "capturedAt": "2026-10-21T15:56:18.188Z",
+      "captureTest": "test/website_backoffice_capture_test.dart",
+      "fixtureData": true,
+      "sourceCommit": "a805e0cbb98d07b9b364820cb45c06406cd78b75",
+      "captureOverride": "Segoe UI font family specified for test rendering, including typography and dashboard chart labels; development banner disabled. Real app widgets with seeded repositories.",
+      "verification": "9-screen capture suite passed; additional Orders capture passed separately. No live backend, provider or hardware certification"
+    },
+    {
+      "file": "/images/product/backoffice-products.png",
+      "sha256": "5a78dbb15656092983eca84ee6e0326b9e64d0f51d7b5ed30a3d7d02b4f834a7",
+      "width": 1440,
+      "height": 1000,
+      "capturedAt": "2026-10-21T15:56:18.191Z",
+      "captureTest": "test/website_backoffice_capture_test.dart",
+      "fixtureData": true,
+      "sourceCommit": "a805e0cbb98d07b9b364820cb45c06406cd78b75",
+      "captureOverride": "Segoe UI font family specified for test rendering, including typography and dashboard chart labels; development banner disabled. Real app widgets with seeded repositories.",
+      "verification": "9-screen capture suite passed; additional Orders capture passed separately. No live backend, provider or hardware certification"
+    },
+    {
+      "file": "/images/product/backoffice-customers.png",
+      "sha256": "8c391b8be9140c31bea6dd1050e5f3076dd53d8751e71c2356f78270d09b4213",
+      "width": 1440,
+      "height": 1000,
+      "capturedAt": "2026-10-21T15:56:18.193Z",
+      "captureTest": "test/website_backoffice_capture_test.dart",
+      "fixtureData": true,
+      "sourceCommit": "a805e0cbb98d07b9b364820cb45c06406cd78b75",
+      "captureOverride": "Segoe UI font family specified for test rendering, including typography and dashboard chart labels; development banner disabled. Real app widgets with seeded repositories.",
+      "verification": "9-screen capture suite passed; additional Orders capture passed separately. No live backend, provider or hardware certification"
+    },
+    {
+      "file": "/images/product/backoffice-stock.png",
+      "sha256": "acde7953d09115b502cb041bd3c7bc6e4878af6e42e05df5e718b5efd714f64b",
+      "width": 1440,
+      "height": 1000,
+      "capturedAt": "2026-10-21T15:56:18.196Z",
+      "captureTest": "test/website_backoffice_capture_test.dart",
+      "fixtureData": true,
+      "sourceCommit": "a805e0cbb98d07b9b364820cb45c06406cd78b75",
+      "captureOverride": "Segoe UI font family specified for test rendering, including typography and dashboard chart labels; development banner disabled. Real app widgets with seeded repositories.",
+      "verification": "9-screen capture suite passed; additional Orders capture passed separately. No live backend, provider or hardware certification"
+    },
+    {
+      "file": "/images/product/backoffice-reports.png",
+      "sha256": "e15659c78fdb400fd88a191cb8bbd8c9be9bdc037a61ff251b2c201e6a0c7557",
+      "width": 1440,
+      "height": 1000,
+      "capturedAt": "2026-10-21T15:56:18.201Z",
+      "captureTest": "test/website_backoffice_capture_test.dart",
+      "fixtureData": true,
+      "sourceCommit": "a805e0cbb98d07b9b364820cb45c06406cd78b75",
+      "captureOverride": "Segoe UI font family specified for test rendering, including typography and dashboard chart labels; development banner disabled. Real app widgets with seeded repositories.",
+      "verification": "9-screen capture suite passed; additional Orders capture passed separately. No live backend, provider or hardware certification"
+    },
+    {
+      "file": "/images/product/backoffice-hardware.png",
+      "sha256": "f2cc28010c93e39ffa49da4a5881282d1ea0ec7040e36048ac6c66b09587afd6",
+      "width": 1440,
+      "height": 1000,
+      "capturedAt": "2026-10-21T15:56:18.204Z",
+      "captureTest": "test/website_backoffice_capture_test.dart",
+      "fixtureData": true,
+      "sourceCommit": "a805e0cbb98d07b9b364820cb45c06406cd78b75",
+      "captureOverride": "Segoe UI font family specified for test rendering, including typography and dashboard chart labels; development banner disabled. Real app widgets with seeded repositories.",
+      "verification": "9-screen capture suite passed; additional Orders capture passed separately. No live backend, provider or hardware certification"
+    },
+    {
+      "file": "/images/product/backoffice-payments.png",
+      "sha256": "c471d6a029813d45e2dde297e24e4e083765f6d8452fe6bcbc4d1663a5b460d0",
+      "width": 1440,
+      "height": 1000,
+      "capturedAt": "2026-10-21T15:56:18.209Z",
+      "captureTest": "test/website_backoffice_capture_test.dart",
+      "fixtureData": true,
+      "sourceCommit": "a805e0cbb98d07b9b364820cb45c06406cd78b75",
+      "captureOverride": "Segoe UI font family specified for test rendering, including typography and dashboard chart labels; development banner disabled. Real app widgets with seeded repositories.",
+      "verification": "9-screen capture suite passed; additional Orders capture passed separately. No live backend, provider or hardware certification"
+    },
+    {
+      "file": "/images/product/backoffice-shifts.png",
+      "sha256": "622a9724b2409e652ac908933e1aa582316409647da17c209713469d240f7263",
+      "width": 1440,
+      "height": 1000,
+      "capturedAt": "2026-10-21T15:56:18.211Z",
+      "captureTest": "test/website_backoffice_capture_test.dart",
+      "fixtureData": true,
+      "sourceCommit": "a805e0cbb98d07b9b364820cb45c06406cd78b75",
+      "captureOverride": "Segoe UI font family specified for test rendering, including typography and dashboard chart labels; development banner disabled. Real app widgets with seeded repositories.",
+      "verification": "9-screen capture suite passed; additional Orders capture passed separately. No live backend, provider or hardware certification"
+    },
+    {
+      "file": "/images/product/backoffice-orders.png",
+      "sha256": "5a9116638f3de2c32de4c26c32b07009aab6216767ee57007c6b2b640148cecd",
+      "width": 1440,
+      "height": 1000,
+      "capturedAt": "2026-10-21T15:56:18.213Z",
+      "captureTest": "test/website_backoffice_capture_test.dart",
+      "fixtureData": true,
+      "sourceCommit": "a805e0cbb98d07b9b364820cb45c06406cd78b75",
+      "captureOverride": "Segoe UI font family specified for test rendering, including typography and dashboard chart labels; development banner disabled. Real app widgets with seeded repositories.",
+      "verification": "9-screen capture suite passed; additional Orders capture passed separately. No live backend, provider or hardware certification"
+    },
+    {
+      "file": "/images/product/printer-receipt-setup.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "6f15f62237701f813ff72894e42c42d95c819c9a1b49a03ab8e0a77636f4111a",
+      "capturedAt": "2026-10-22T18:52:44.372Z",
+      "captureTest": "test/website_printer_capture_test.dart",
+      "sourceCommit": "a805e0cbb98d07b9b364820cb45c06406cd78b75",
+      "sourceVerification": {
+        "comparedAt": "2026-10-22T18:49:06.230Z",
+        "method": "Exact hash comparison of printer UI/controller files in current worktree and isolated source snapshot; no sibling app changes",
+        "files": {
+          "packages/ropulse_backoffice/lib/src/hardware/hardware_screen.dart": "d6b9983fc34096bfe5b6511765507d318f8404487026b1173e785bac5b24cb9f",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_operations_panel.dart": "80840accfb6963496b0c1ad5995bba37147e0106f48bddbdf7897d35e69b95b1",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_operations_controller.dart": "47845ee947c3325a4b5319c968c289c0e97f801ace3be4ccd5f99ba808ae2385",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_printer_bindings_controller.dart": "659af14a06a5ca7e07072d0ee8de4f6ab8e8e0882fffc577be5b5de57e13084f",
+          "packages/ropulse_backoffice/lib/src/receipts/receipt_center_screen.dart": "5d9ee5e38e772ad4119941e3e48cf27bb127127fa5329086a10ee6f42fc4b5fb",
+          "packages/ropulse_backoffice/lib/src/receipts/receipt_center_controller.dart": "d0884fbe81e33016fce9a0cd499a52a2d0c645fc4acf983ef533baf33d527e2f",
+          "packages/ropulse_backoffice/lib/src/pos_shell/receipt_printer.dart": "833ded6beb4063783354f02debfb94b28ebc39792117374da6d2a32a1d1226fd"
+        }
+      },
+      "fixtureData": true,
+      "pixelsRetouched": false,
+      "captureOverride": "Segoe UI and Consolas loaded for test fonts; native printing information mocked unavailable, no physical print calls allowed; in-memory network settings use TEST-NET example addresses.",
+      "verification": "7 real-widget capture scenarios passed; no released installer, physical printer, production backend or background delivery certification"
+    },
+    {
+      "file": "/images/product/printer-network-printer.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "5a960b0a57d6a1e20c9da45736dc49daa690c5fec521690c274aa2d0db50d8d5",
+      "capturedAt": "2026-10-22T18:52:44.379Z",
+      "captureTest": "test/website_printer_capture_test.dart",
+      "sourceCommit": "a805e0cbb98d07b9b364820cb45c06406cd78b75",
+      "sourceVerification": {
+        "comparedAt": "2026-10-22T18:49:06.230Z",
+        "method": "Exact hash comparison of printer UI/controller files in current worktree and isolated source snapshot; no sibling app changes",
+        "files": {
+          "packages/ropulse_backoffice/lib/src/hardware/hardware_screen.dart": "d6b9983fc34096bfe5b6511765507d318f8404487026b1173e785bac5b24cb9f",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_operations_panel.dart": "80840accfb6963496b0c1ad5995bba37147e0106f48bddbdf7897d35e69b95b1",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_operations_controller.dart": "47845ee947c3325a4b5319c968c289c0e97f801ace3be4ccd5f99ba808ae2385",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_printer_bindings_controller.dart": "659af14a06a5ca7e07072d0ee8de4f6ab8e8e0882fffc577be5b5de57e13084f",
+          "packages/ropulse_backoffice/lib/src/receipts/receipt_center_screen.dart": "5d9ee5e38e772ad4119941e3e48cf27bb127127fa5329086a10ee6f42fc4b5fb",
+          "packages/ropulse_backoffice/lib/src/receipts/receipt_center_controller.dart": "d0884fbe81e33016fce9a0cd499a52a2d0c645fc4acf983ef533baf33d527e2f",
+          "packages/ropulse_backoffice/lib/src/pos_shell/receipt_printer.dart": "833ded6beb4063783354f02debfb94b28ebc39792117374da6d2a32a1d1226fd"
+        }
+      },
+      "fixtureData": true,
+      "pixelsRetouched": false,
+      "captureOverride": "Segoe UI and Consolas loaded for test fonts; native printing information mocked unavailable, no physical print calls allowed; in-memory network settings use TEST-NET example addresses.",
+      "verification": "7 real-widget capture scenarios passed; no released installer, physical printer, production backend or background delivery certification"
+    },
+    {
+      "file": "/images/product/printer-logical-printer.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "73471fc0ac63480c51d97b3dd6815db5c2108f4bc4a7a10f148458fa8813eb27",
+      "capturedAt": "2026-10-22T18:52:44.384Z",
+      "captureTest": "test/website_printer_capture_test.dart",
+      "sourceCommit": "a805e0cbb98d07b9b364820cb45c06406cd78b75",
+      "sourceVerification": {
+        "comparedAt": "2026-10-22T18:49:06.230Z",
+        "method": "Exact hash comparison of printer UI/controller files in current worktree and isolated source snapshot; no sibling app changes",
+        "files": {
+          "packages/ropulse_backoffice/lib/src/hardware/hardware_screen.dart": "d6b9983fc34096bfe5b6511765507d318f8404487026b1173e785bac5b24cb9f",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_operations_panel.dart": "80840accfb6963496b0c1ad5995bba37147e0106f48bddbdf7897d35e69b95b1",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_operations_controller.dart": "47845ee947c3325a4b5319c968c289c0e97f801ace3be4ccd5f99ba808ae2385",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_printer_bindings_controller.dart": "659af14a06a5ca7e07072d0ee8de4f6ab8e8e0882fffc577be5b5de57e13084f",
+          "packages/ropulse_backoffice/lib/src/receipts/receipt_center_screen.dart": "5d9ee5e38e772ad4119941e3e48cf27bb127127fa5329086a10ee6f42fc4b5fb",
+          "packages/ropulse_backoffice/lib/src/receipts/receipt_center_controller.dart": "d0884fbe81e33016fce9a0cd499a52a2d0c645fc4acf983ef533baf33d527e2f",
+          "packages/ropulse_backoffice/lib/src/pos_shell/receipt_printer.dart": "833ded6beb4063783354f02debfb94b28ebc39792117374da6d2a32a1d1226fd"
+        }
+      },
+      "fixtureData": true,
+      "pixelsRetouched": false,
+      "captureOverride": "Segoe UI and Consolas loaded for test fonts; native printing information mocked unavailable, no physical print calls allowed; in-memory network settings use TEST-NET example addresses.",
+      "verification": "7 real-widget capture scenarios passed; no released installer, physical printer, production backend or background delivery certification"
+    },
+    {
+      "file": "/images/product/printer-kot-routing.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "e1e77db205ee319a7c2e0067407232238f0ac7e13d2160e120b616f339993968",
+      "capturedAt": "2026-10-22T18:52:44.390Z",
+      "captureTest": "test/website_printer_capture_test.dart",
+      "sourceCommit": "a805e0cbb98d07b9b364820cb45c06406cd78b75",
+      "sourceVerification": {
+        "comparedAt": "2026-10-22T18:49:06.230Z",
+        "method": "Exact hash comparison of printer UI/controller files in current worktree and isolated source snapshot; no sibling app changes",
+        "files": {
+          "packages/ropulse_backoffice/lib/src/hardware/hardware_screen.dart": "d6b9983fc34096bfe5b6511765507d318f8404487026b1173e785bac5b24cb9f",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_operations_panel.dart": "80840accfb6963496b0c1ad5995bba37147e0106f48bddbdf7897d35e69b95b1",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_operations_controller.dart": "47845ee947c3325a4b5319c968c289c0e97f801ace3be4ccd5f99ba808ae2385",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_printer_bindings_controller.dart": "659af14a06a5ca7e07072d0ee8de4f6ab8e8e0882fffc577be5b5de57e13084f",
+          "packages/ropulse_backoffice/lib/src/receipts/receipt_center_screen.dart": "5d9ee5e38e772ad4119941e3e48cf27bb127127fa5329086a10ee6f42fc4b5fb",
+          "packages/ropulse_backoffice/lib/src/receipts/receipt_center_controller.dart": "d0884fbe81e33016fce9a0cd499a52a2d0c645fc4acf983ef533baf33d527e2f",
+          "packages/ropulse_backoffice/lib/src/pos_shell/receipt_printer.dart": "833ded6beb4063783354f02debfb94b28ebc39792117374da6d2a32a1d1226fd"
+        }
+      },
+      "fixtureData": true,
+      "pixelsRetouched": false,
+      "captureOverride": "Segoe UI and Consolas loaded for test fonts; native printing information mocked unavailable, no physical print calls allowed; in-memory network settings use TEST-NET example addresses.",
+      "verification": "7 real-widget capture scenarios passed; no released installer, physical printer, production backend or background delivery certification"
+    },
+    {
+      "file": "/images/product/printer-device-bindings.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "9e21a9ae7b13525632e17ed1b920c8f4bcce2a6e1e92f602ef43c0cd7d6497a4",
+      "capturedAt": "2026-10-22T18:52:44.393Z",
+      "captureTest": "test/website_printer_capture_test.dart",
+      "sourceCommit": "a805e0cbb98d07b9b364820cb45c06406cd78b75",
+      "sourceVerification": {
+        "comparedAt": "2026-10-22T18:49:06.230Z",
+        "method": "Exact hash comparison of printer UI/controller files in current worktree and isolated source snapshot; no sibling app changes",
+        "files": {
+          "packages/ropulse_backoffice/lib/src/hardware/hardware_screen.dart": "d6b9983fc34096bfe5b6511765507d318f8404487026b1173e785bac5b24cb9f",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_operations_panel.dart": "80840accfb6963496b0c1ad5995bba37147e0106f48bddbdf7897d35e69b95b1",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_operations_controller.dart": "47845ee947c3325a4b5319c968c289c0e97f801ace3be4ccd5f99ba808ae2385",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_printer_bindings_controller.dart": "659af14a06a5ca7e07072d0ee8de4f6ab8e8e0882fffc577be5b5de57e13084f",
+          "packages/ropulse_backoffice/lib/src/receipts/receipt_center_screen.dart": "5d9ee5e38e772ad4119941e3e48cf27bb127127fa5329086a10ee6f42fc4b5fb",
+          "packages/ropulse_backoffice/lib/src/receipts/receipt_center_controller.dart": "d0884fbe81e33016fce9a0cd499a52a2d0c645fc4acf983ef533baf33d527e2f",
+          "packages/ropulse_backoffice/lib/src/pos_shell/receipt_printer.dart": "833ded6beb4063783354f02debfb94b28ebc39792117374da6d2a32a1d1226fd"
+        }
+      },
+      "fixtureData": true,
+      "pixelsRetouched": false,
+      "captureOverride": "Segoe UI and Consolas loaded for test fonts; native printing information mocked unavailable, no physical print calls allowed; in-memory network settings use TEST-NET example addresses.",
+      "verification": "7 real-widget capture scenarios passed; no released installer, physical printer, production backend or background delivery certification"
+    },
+    {
+      "file": "/images/product/printer-kot-history.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "106a5d83a6cd404370d1c6910077a14c7c48068acab12591b26924004261c2bd",
+      "capturedAt": "2026-10-22T18:52:44.397Z",
+      "captureTest": "test/website_printer_capture_test.dart",
+      "sourceCommit": "a805e0cbb98d07b9b364820cb45c06406cd78b75",
+      "sourceVerification": {
+        "comparedAt": "2026-10-22T18:49:06.230Z",
+        "method": "Exact hash comparison of printer UI/controller files in current worktree and isolated source snapshot; no sibling app changes",
+        "files": {
+          "packages/ropulse_backoffice/lib/src/hardware/hardware_screen.dart": "d6b9983fc34096bfe5b6511765507d318f8404487026b1173e785bac5b24cb9f",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_operations_panel.dart": "80840accfb6963496b0c1ad5995bba37147e0106f48bddbdf7897d35e69b95b1",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_operations_controller.dart": "47845ee947c3325a4b5319c968c289c0e97f801ace3be4ccd5f99ba808ae2385",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_printer_bindings_controller.dart": "659af14a06a5ca7e07072d0ee8de4f6ab8e8e0882fffc577be5b5de57e13084f",
+          "packages/ropulse_backoffice/lib/src/receipts/receipt_center_screen.dart": "5d9ee5e38e772ad4119941e3e48cf27bb127127fa5329086a10ee6f42fc4b5fb",
+          "packages/ropulse_backoffice/lib/src/receipts/receipt_center_controller.dart": "d0884fbe81e33016fce9a0cd499a52a2d0c645fc4acf983ef533baf33d527e2f",
+          "packages/ropulse_backoffice/lib/src/pos_shell/receipt_printer.dart": "833ded6beb4063783354f02debfb94b28ebc39792117374da6d2a32a1d1226fd"
+        }
+      },
+      "fixtureData": true,
+      "pixelsRetouched": false,
+      "captureOverride": "Segoe UI and Consolas loaded for test fonts; native printing information mocked unavailable, no physical print calls allowed; in-memory network settings use TEST-NET example addresses.",
+      "verification": "7 real-widget capture scenarios passed; no released installer, physical printer, production backend or background delivery certification"
+    },
+    {
+      "file": "/images/product/printer-kot-details.png",
+      "width": 1440,
+      "height": 1000,
+      "sha256": "d3630954c3f75b0771540b3b96852fe6c04783013551f8106154b7baf007efad",
+      "capturedAt": "2026-10-22T18:52:44.401Z",
+      "captureTest": "test/website_printer_capture_test.dart",
+      "sourceCommit": "a805e0cbb98d07b9b364820cb45c06406cd78b75",
+      "sourceVerification": {
+        "comparedAt": "2026-10-22T18:49:06.230Z",
+        "method": "Exact hash comparison of printer UI/controller files in current worktree and isolated source snapshot; no sibling app changes",
+        "files": {
+          "packages/ropulse_backoffice/lib/src/hardware/hardware_screen.dart": "d6b9983fc34096bfe5b6511765507d318f8404487026b1173e785bac5b24cb9f",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_operations_panel.dart": "80840accfb6963496b0c1ad5995bba37147e0106f48bddbdf7897d35e69b95b1",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_operations_controller.dart": "47845ee947c3325a4b5319c968c289c0e97f801ace3be4ccd5f99ba808ae2385",
+          "packages/ropulse_backoffice/lib/src/hardware/kot_printer_bindings_controller.dart": "659af14a06a5ca7e07072d0ee8de4f6ab8e8e0882fffc577be5b5de57e13084f",
+          "packages/ropulse_backoffice/lib/src/receipts/receipt_center_screen.dart": "5d9ee5e38e772ad4119941e3e48cf27bb127127fa5329086a10ee6f42fc4b5fb",
+          "packages/ropulse_backoffice/lib/src/receipts/receipt_center_controller.dart": "d0884fbe81e33016fce9a0cd499a52a2d0c645fc4acf983ef533baf33d527e2f",
+          "packages/ropulse_backoffice/lib/src/pos_shell/receipt_printer.dart": "833ded6beb4063783354f02debfb94b28ebc39792117374da6d2a32a1d1226fd"
+        }
+      },
+      "fixtureData": true,
+      "pixelsRetouched": false,
+      "captureOverride": "Segoe UI and Consolas loaded for test fonts; native printing information mocked unavailable, no physical print calls allowed; in-memory network settings use TEST-NET example addresses.",
+      "verification": "7 real-widget capture scenarios passed; no released installer, physical printer, production backend or background delivery certification"
+    }
+  ]
+}
