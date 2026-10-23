@@ -2,7 +2,9 @@
   "name": "ropulse-web",
   "version": "0.1.0",
   "private": true,
-  "engines": { "node": ">=22.18.0" },
+  "engines": {
+    "node": ">=22.18.0"
+  },
   "scripts": {
     "dev": "node node_modules/next/dist/bin/next dev --webpack",
     "build": "node node_modules/next/dist/bin/next build --webpack",
@@ -19,9 +21,10 @@
   },
   "dependencies": {
     "marked": "17.0.5",
-    "next": "16.3.1",
+    "next": "16.4.3",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "sharp": "0.35.5"
   },
   "devDependencies": {
     "@types/node": "20.19.43",
