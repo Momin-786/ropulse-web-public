@@ -1,0 +1,33 @@
+{
+  "name": "ropulse-web",
+  "version": "0.1.0",
+  "private": true,
+  "engines": { "node": ">=22.18.0" },
+  "scripts": {
+    "dev": "node node_modules/next/dist/bin/next dev --webpack",
+    "build": "node node_modules/next/dist/bin/next build --webpack",
+    "start": "node node_modules/next/dist/bin/next start",
+    "preview:production": "node scripts/preview-production.mjs",
+    "typecheck": "node node_modules/typescript/bin/tsc --noEmit",
+    "test": "node --test tests/*.test.mjs",
+    "test:e2e": "node tests/browser.mjs",
+    "test:motion": "node tests/motion-manuals.mjs",
+    "test:visual": "node tests/visual-guidance.mjs",
+    "check:launch": "node --env-file-if-exists=.env.local scripts/check-launch.mjs",
+    "check:security": "node scripts/check-security.mjs",
+    "build:release": "npm run check:security && npm run build"
+  },
+  "dependencies": {
+    "marked": "17.0.5",
+    "next": "16.3.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "20.19.43",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
+    "playwright": "1.62.1",
+    "typescript": "5.9.3"
+  }
+}
