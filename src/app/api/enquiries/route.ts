@@ -1,9 +1,11 @@
 import { randomUUID } from 'node:crypto';
-import { getSite, httpsUrl } from '@/lib/site.mjs';
-import { validateEnquiry, deliverEnquiry } from '@/lib/contact.mjs';
+import { getSite } from '@/lib/site.mjs';
+import { validateEnquiry } from '@/lib/contact.mjs';
+import { enquiryDeliveryConfigured, deliverVerifiedEnquiry } from '@/lib/enquiry-delivery.mjs';
+import { turnstileConfigured } from '@/lib/turnstile.mjs';
 import policies from '@/content/policies.json';
 export const runtime = 'nodejs';
-export const maxDuration = 15;
+export const maxDuration = 20;
 export async function POST(request: Request) {
   const site = getSite();
   const origin = request.headers.get('origin');
@@ -23,9 +25,9 @@ export async function POST(request: Request) {
   try { input = JSON.parse(Buffer.concat(chunks).toString('utf8')); } catch { return Response.json({ ok: false, message: 'Check the form and try again.' }, { status: 400 }); }
   const { value, errors } = validateEnquiry(input);
   if (Object.keys(errors).length) return Response.json({ ok: false, errors, message: 'Please check the highlighted fields.' }, { status: 422 });
-  if (!policies.privacy.approved || !policies.privacy.body || !policies.privacy.reviewedAt || !site.company || !httpsUrl(process.env.CONTACT_ENDPOINT)) return Response.json({ ok: false, message: 'Online enquiries are not available yet. Please use the contact option shown on the page.' }, { status: 503 });
+  if (!policies.privacy.approved || !policies.privacy.body || !policies.privacy.reviewedAt || !site.company || !enquiryDeliveryConfigured() || !turnstileConfigured()) return Response.json({ ok: false, message: 'Online enquiries are not available yet. Please use the contact option shown on the page.' }, { status: 503 });
   const supplied = request.headers.get('idempotency-key');
   const requestId = supplied && /^[0-9a-f-]{36}$/i.test(supplied) ? supplied : randomUUID();
-  const result = await deliverEnquiry(value, { endpoint: process.env.CONTACT_ENDPOINT, token: process.env.CONTACT_API_TOKEN, requestId });
+  const result = await deliverVerifiedEnquiry(value, { env: process.env, requestId, turnstileToken: input.turnstileToken });
   return Response.json({ ok: result.ok, message: result.message, requestId }, { status: result.status });
 }

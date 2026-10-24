@@ -13,3 +13,9 @@ test('a configured URL cannot certify real enquiry delivery', () => {
   const checks = launchChecks({ env: { ...ready, CONTACT_ENDPOINT: 'https://service.example/enquiries' }, policies: { privacy: approved, terms: approved }, articles: [], releases: [], mode: 'enquiries' });
   assert.equal(checks.find(([name]) => name.includes('Durable enquiry'))[1], false);
 });
+test('Resend configuration satisfies delivery setup but not verification evidence', () => {
+  const env = { ...ready, RESEND_API_KEY: 're_test', CONTACT_FROM_EMAIL: 'website@notify.ropulse.io', CONTACT_TO_EMAIL: 'support@ropulse.io,momina7863@gmail.com' };
+  const checks = launchChecks({ env, policies: { privacy: approved, terms: approved }, articles: [], releases: [], mode: 'enquiries' });
+  assert.equal(checks.find(([name]) => name === 'Enquiry delivery configuration')[1], true);
+  assert.equal(checks.find(([name]) => name.includes('Durable enquiry'))[1], false);
+});

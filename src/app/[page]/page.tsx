@@ -5,7 +5,9 @@ import { connection } from 'next/server';
 import { CapabilityGrid, CTA, Eyebrow, PageIntro } from '@/components/marketing';
 import { Icon } from '@/components/icon';
 import { EnquiryForm } from '@/components/enquiry-form';
-import { getSite, httpsUrl } from '@/lib/site.mjs';
+import { getSite } from '@/lib/site.mjs';
+import { enquiryDeliveryConfigured } from '@/lib/enquiry-delivery.mjs';
+import { turnstileConfigured } from '@/lib/turnstile.mjs';
 import { getReleases } from '@/lib/releases.mjs';
 import policies from '@/content/policies.json';
 import { ProductShowcase } from '@/components/product-showcase';
@@ -70,9 +72,9 @@ function GetStarted() {
 }
 function Contact({ demo }: { demo: boolean }) {
   const site = getSite();
-  const enabled = Boolean(policies.privacy.approved && policies.privacy.body && policies.privacy.reviewedAt && site.company && httpsUrl(process.env.CONTACT_ENDPOINT));
+  const enabled = Boolean(policies.privacy.approved && policies.privacy.body && policies.privacy.reviewedAt && site.company && enquiryDeliveryConfigured() && turnstileConfigured());
   const contact = site.salesEmail || site.supportEmail;
-  return <><PageIntro label={demo ? 'Let’s meet your business' : 'Contact RoPulse'} title={demo ? 'Your service. Your team. Let’s find the right flow.' : 'A conversation is a good place to start.'}><p>Tell us a little about your operation. We’ll discuss the workflows, devices and setup that matter to you.</p></PageIntro><section className="container content-section split-content"><div className="content-card"><h2>{demo ? 'Arrange a walkthrough' : 'Tell us about your business'}</h2><EnquiryForm enabled={enabled} contactEmail={contact} /></div><aside><Eyebrow>What we’ll cover</Eyebrow><ol className="flow-list">{[['Your working day', 'Your service types, team and branch setup.'], ['The relevant workflows', 'Ordering, checkout, reporting and the right scope.'], ['The practical next steps', 'Supported devices, onboarding and readiness.']].map(([title, text], i) => <li key={title}><span>0{i + 1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol><div className="subtle-panel" style={{ marginTop: 35 }}><h3>Prefer to contact us directly?</h3><p className="support-window">{site.supportHours}</p>{contact ? <a className="text-link" href={`mailto:${contact}`}>{contact} <Icon name="arrow" size={18} /></a> : <p>Use the contact details provided by your RoPulse onboarding representative. A public contact address has not been published yet.</p>}<p className="form-note">For an existing order or payment issue, use <Link href="/support" style={{ textDecoration: 'underline' }}>support</Link> and keep the original reference.</p></div></aside></section></>;
+  return <><PageIntro label={demo ? 'Let’s meet your business' : 'Contact RoPulse'} title={demo ? 'Your service. Your team. Let’s find the right flow.' : 'A conversation is a good place to start.'}><p>Tell us a little about your operation. We’ll discuss the workflows, devices and setup that matter to you.</p></PageIntro><section className="container content-section split-content"><div className="content-card"><h2>{demo ? 'Arrange a walkthrough' : 'Tell us about your business'}</h2><EnquiryForm enabled={enabled} contactEmail={contact} turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ''} /></div><aside><Eyebrow>What we’ll cover</Eyebrow><ol className="flow-list">{[['Your working day', 'Your service types, team and branch setup.'], ['The relevant workflows', 'Ordering, checkout, reporting and the right scope.'], ['The practical next steps', 'Supported devices, onboarding and readiness.']].map(([title, text], i) => <li key={title}><span>0{i + 1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol><div className="subtle-panel" style={{ marginTop: 35 }}><h3>Prefer to contact us directly?</h3><p className="support-window">{site.supportHours}</p>{contact ? <a className="text-link" href={`mailto:${contact}`}>{contact} <Icon name="arrow" size={18} /></a> : <p>Use the contact details provided by your RoPulse onboarding representative. A public contact address has not been published yet.</p>}<p className="form-note">For an existing order or payment issue, use <Link href="/support" style={{ textDecoration: 'underline' }}>support</Link> and keep the original reference.</p></div></aside></section></>;
 }
 function Support() {
   const site = getSite();

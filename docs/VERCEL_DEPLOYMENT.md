@@ -21,8 +21,13 @@ and [project configuration reference](https://vercel.com/docs/project-configurat
    Do not reuse the production origin for a preview enquiry request.
 5. Set `SUPPORT_EMAIL=support@ropulse.io` after verifying the mailbox. Confirm
    `COMPANY_NAME=Ebosoft Solutions`, the owner-confirmed seller. Set `SALES_EMAIL` only if confirmed.
-   Leave `IDENTITY_URL`, `CONTACT_ENDPOINT` and its secret token unset until those
-   services are verified. Set them server-side, with no `NEXT_PUBLIC_` prefix.
+   Leave `IDENTITY_URL` unset until its service is verified. For owner-selected
+   Resend enquiry delivery, follow [RESEND_SETUP.md](RESEND_SETUP.md): set
+   `RESEND_API_KEY`, `CONTACT_FROM_EMAIL` and `CONTACT_TO_EMAIL` server-side,
+   with no `NEXT_PUBLIC_` prefix. Leave the alternative `CONTACT_ENDPOINT` and
+   `CONTACT_API_TOKEN` unset. Add `NEXT_PUBLIC_TURNSTILE_SITE_KEY` (public) and
+   `TURNSTILE_SECRET_KEY` (server-only) for the security widget. Complete real
+   delivery/security checks before public activation.
 6. Deploy a preview. Verify `/`, `/resources`, `/tour`, `/docs`, `/support`, policy
    pages, robots, sitemap, headers and all screenshot assets. Public draft guides
    must show their labels/noindex and remain outside the sitemap. If public
@@ -40,7 +45,8 @@ and [project configuration reference](https://vercel.com/docs/project-configurat
 
 The site uses build-time public configuration on static pages. Changing those
 values requires a new deployment. Contact availability is checked per request.
-The enquiry function's 15-second budget includes its 8-second upstream timeout.
+The enquiry function's 20-second budget includes 5 seconds for Turnstile
+verification and 8 seconds for email delivery.
 Do not introduce cookie-based personalization or authenticated content into
 publicly cached static routes.
 

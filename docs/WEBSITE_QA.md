@@ -338,3 +338,27 @@ is simulated by this website.
 
 The website implementation is ready for local review and service configuration.
 Public launch and paid launch remain distinct, externally gated readiness states.
+
+## 2026-10-24: Resend and Turnstile enquiry update
+
+- Implemented Resend delivery to the two owner-selected recipients through
+  server-only configuration, with email reply-to and phone-only contact handling.
+- Kept origin, size, consent and field validation. Added mandatory server-side
+  Turnstile verification with hostname/action matching, fail-closed errors and
+  fresh challenge tokens on retries. Email idempotency remains stable for
+  unchanged form data. CSP allows only the necessary Cloudflare origin.
+- Published an enquiry-specific privacy notice using confirmed seller/contact
+  facts and actual processors. The owner confirmed both mailboxes are controlled
+  by the team and requested omission of a physical address because none exists.
+  No fixed retention period or legal-compliance certification is invented.
+- `npm test`: 40 tests passed, including multi-recipient requests, delivery
+  failures, expired/replayed/wrong-host challenge handling and verification-before-
+  delivery ordering. `npm run typecheck` and `npm run build:release` passed.
+- Scanned production browser JavaScript: no private recipient address, Resend
+  endpoint or test-secret markers were found.
+- Added a production browser test with explicit synthetic provider fixtures.
+  Automatic tool review rejected starting its local server with “blocked by
+  policy”; this browser test was not executed. See `RESEND_SETUP.md` for the
+  manual local test commands. No actual email was sent, and live keys, domain
+  verification, challenge solving and receipt/reply in both inboxes were not
+  verified. No deployment or delivery verification flags were changed.
