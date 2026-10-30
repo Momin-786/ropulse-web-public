@@ -3,7 +3,7 @@
 Date: 2026-10-20
 
 Status: Updated requirements and implementation plan. The owner selected
-automated Safepay subscriptions and 1Bill collections, with website customer
+automated Safepay subscriptions, with website customer
 accounts. This document does not assert that merchant accounts, payment APIs,
 website UI or production billing are already implemented.
 
@@ -20,11 +20,6 @@ The owner has replaced the earlier assisted/manual collection proposal:
 - Safepay is the selected recurring subscription route. After explicit customer
   consent, supported recurring charges continue on the agreed schedule until
   cancellation, payment failure/mandate loss or another legitimate stop.
-- 1Bill is an additional subscription invoice collection route. Bill creation,
-  payment verification, receipts and subscription activation/renewal are
-  automated. Customer payment initiation through a bank/channel is distinct
-  from the system's automated processing; do not promise automatic bank debits
-  without an enabled, contracted mandate capability.
 - There is no bank-transfer screenshot, operator payment-approval step or manual
   subscription activation as the normal paid purchase/renewal flow.
 - Visitors can browse product pages, prices and public docs without signing up.
@@ -34,9 +29,9 @@ The owner has replaced the earlier assisted/manual collection proposal:
   contract. Do not build a separate website password database or reuse the
   restaurant's customer-directory records as SaaS subscriber accounts.
 
-Pakistan/PKR remains the working market/currency. Selecting Safepay and 1Bill
-approves the product direction, not an unconfirmed merchant account, live key,
-biller prefix, negotiated fee or public RoPulse price. The old PKR price
+Pakistan/PKR remains the working market/currency. Selecting Safepay approves
+the product direction, not an unconfirmed merchant account, live key,
+negotiated fee or public RoPulse price. The old PKR price
 hypotheses in historical documents must not become live checkout totals.
 
 ## 2. Reference research and documentation approach
@@ -397,4 +392,3 @@ to manual collection. Appearance, theme and logo remain deferred.
 This update changes specifications and customer documentation only. It does not
 open a merchant account, create a live bill, authorize a payment, message a
 customer or deploy the website.
-

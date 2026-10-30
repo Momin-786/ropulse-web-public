@@ -58,32 +58,6 @@ authorization problem stops them. Keep the authorized payment method current
 through the account's provider-supported update flow. Do not assume automatic
 renewal succeeded if the invoice shows a failed or outstanding payment.
 
-## Pay through 1Bill
-
-1. Select **1Bill** for the current subscription invoice.
-2. Wait for the website to generate/recover its registered payment number.
-   Copy the complete number and read the amount, currency, due date and biller.
-3. In a banking/payment channel that supports this bill, open its applicable
-   1Bill invoice-payment option and enter the number. Channel labels can differ.
-4. Review the biller/beneficiary identity and amount returned by the channel.
-   If they do not match the invoice, stop and contact support before paying.
-5. Authorize the payment through that channel, retain its confirmation and
-   return to your existing RoPulse invoice/status page.
-6. Wait for automatic provider verification. The page shows the confirmed
-   payment and applies activation/renewal without a staff approval step.
-
-Use the number for the invoice shown in your account. Do not reuse an expired
-or superseded reference without checking the current bill, and do not generate
-a second purchase because a provider notification is delayed. If the bank says
-payment succeeded while the website is still verifying, provide the existing
-invoice and bank transaction reference to support instead of paying again.
-
-Ordinary 1Bill renewal issues a new payable bill for the next service period.
-You approve that payment in the supported channel; the website then processes
-it automatically. It is not automatically a standing bank-debit authorization.
-Read the actual account instructions if a separately enabled mandate option
-is offered in a later release.
-
 ## Find invoices, receipts and service dates
 
 Open **Account → Invoices** for subscription documents and payment status.
@@ -105,9 +79,7 @@ account verification step. Keep the cancellation reference/confirmation.
 
 For Safepay, the account must confirm that future provider charging has stopped.
 If confirmation is pending, the page says so and the system reconciles it;
-signing out or deleting the app does not cancel a subscription. For 1Bill, the
-system stops future renewal bill creation and handles unpaid bills according
-to the stated cancellation cutoff.
+signing out or deleting the app does not cancel a subscription.
 
 Ordinary cancellation retains already-paid service through the displayed end
 date. It does not automatically refund the last charge or delete business sales
@@ -129,4 +101,3 @@ payment-recovery action. Contact support when the provider result and account
 state disagree, giving references and the displayed message. Never share your
 password, PIN, full payment credentials or card security code. For operational
 app issues, use the [troubleshooting guide](12-connectivity-and-troubleshooting.md).
-

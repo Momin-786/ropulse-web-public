@@ -9,7 +9,9 @@
 - Hosting: Vercel.
 - Domain: `ropulse.io`, confirmed in `../app/docs/Ropulse_Flutter_Frontend_Spec.md`.
 - Intended support address: `support@ropulse.io`, formed from the owner's instruction and documented domain. Actual mailbox delivery has not been verified.
-- Safepay will be configured later. Public subscription checkout stays disabled.
+- Safepay is the sole paid-launch subscription route. Do not enable checkout
+  until the provider account, webhook verification, provisioning, renewal,
+  cancellation and recovery checks are evidenced.
 
 The business/postal address, seller registration details where applicable,
 support working days, sales contact, offer prices and policy decisions are
@@ -47,7 +49,7 @@ Keep them false until the associated checks have actually been completed.
 | User manual | Owner-approved public draft guides now show all 15 chapters with labels/noindex and real screenshot figures. Complete release-specific walkthroughs before marking them approved or distributing as certified instructions. |
 | POS downloads | Supply approved installers, SHA-256, supported devices, signing information and release notes. Old local development executables are not approved installers. |
 | Shared account | Verify and configure the actual shared identity destination. A suggested `app.ropulse.io` is not proof of a live account service. |
-| Paid launch | Approved offers, taxes/terms, provider webhooks, provisioning, renewal, cancellation and recovery tests. Safepay remains deferred. |
+| Paid launch | Approved offers, taxes/terms, provider webhooks, provisioning, renewal, cancellation and recovery tests. Safepay is the only supported collection route. |
 
 ## Security update required before deployment
 
