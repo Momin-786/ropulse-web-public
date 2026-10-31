@@ -21,6 +21,7 @@ async function request<T>(path: string, options: RequestInit = {}, _session?: st
   const response = await fetch(`/api/subscriber/${path}`, { ...options, headers, cache: 'no-store' });
   if (!response.ok) {
     const body = await response.json().catch(() => null) as { message?: string } | null;
+    if(response.status === 401) window.dispatchEvent(new Event('ropulse:subscriber-session-expired'));
     throw new Error(body?.message || 'The request could not be completed.');
   }
   return response.headers.get('content-type')?.includes('application/json')
@@ -52,8 +53,18 @@ export function SubscriberPortal({ page }: { page: 'login' | 'signup' | 'account
     fetch('/api/subscriber/subscriber/auth/session', { cache: 'no-store' })
       .then(response => response.ok ? response.json() as Promise<{ authenticated: boolean }> : { authenticated: false })
       .then(session => setToken(session.authenticated ? 'session' : null))
+      .catch(() => setMessage('Could not check your session. Please try signing in again.'))
       .finally(() => setSessionReady(true));
   }, []);
+
+  useEffect(() => {
+    const expired = () => { setToken(null); setPassword(''); setMessage('Your session expired. Sign in again to continue.'); };
+    window.addEventListener('ropulse:subscriber-session-expired',expired);
+    return () => window.removeEventListener('ropulse:subscriber-session-expired',expired);
+  },[]);
+  useEffect(() => {
+    if(token && (page === 'login' || page === 'signup')) router.replace('/account');
+  },[token,page,router]);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -67,8 +78,8 @@ export function SubscriberPortal({ page }: { page: 'login' | 'signup' | 'account
       }
       const result = await request<{ authenticated: boolean }>('subscriber/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) });
       if (result.authenticated) {
-        setToken('session');
-        router.replace(page === 'login' ? '/account' : `/${page}`);
+        setToken('session'); setPassword('');
+        router.replace(page === 'login' || page === 'signup' ? '/account' : `/${page}${search.toString() ? `?${search.toString()}` : ''}`);
       }
     } catch (error) {
       setMessage(error instanceof Error ? error.message : 'The request could not be completed.');
@@ -77,9 +88,10 @@ export function SubscriberPortal({ page }: { page: 'login' | 'signup' | 'account
     }
   }
 
-  if (!sessionReady) return <section className="container account-shell"><p>Loading your account…</p></section>;
+  if (!sessionReady) return <section className="container account-shell"><h1>Loading your account…</h1></section>;
+  if (token && (page === 'login' || page === 'signup')) return <section className="container account-shell"><h1>Opening your account…</h1></section>;
   if (token && page === 'owner-invitation') return <OwnerInvitation token={token} invitationToken={search.get('token') || ''} />;
-  if (token && page === 'account') return <AccountDashboard token={token} />;
+  if (token && page === 'account') return <AccountDashboard token={token} onSignOut={() => setToken(null)} />;
   if (token) return <SubscriptionCheckout token={token} initialInvoiceId={search.get('invoiceId')} tracker={search.get('tracker') || search.get('tracker_token')} />;
   return <section className="container account-shell"><div className="account-intro"><p className="eyebrow">RoPulse account</p><h1>{mode === 'signup' ? 'Start with a verified account.' : 'Sign in to your business.'}</h1><p className="lead">One account holds your subscription, business workspace and owner access. You create your own credentials. RoPulse never displays a default password or PIN.</p></div><form className="account-card" onSubmit={submit}><h2>{mode === 'signup' ? 'Create your account' : 'Welcome back'}</h2><label>Email address<input required autoComplete="email" type="email" value={email} onChange={event => setEmail(event.target.value)} /></label><label>Password<input required minLength={12} autoComplete={mode === 'signup' ? 'new-password' : 'current-password'} type="password" value={password} onChange={event => setPassword(event.target.value)} /></label>{message && <p className="form-message" role="status">{message}</p>}<button className="button" disabled={busy} type="submit">{busy ? 'Please wait…' : mode === 'signup' ? 'Create account' : 'Sign in'}</button><button className="text-button" type="button" onClick={() => { setMode(mode === 'signup' ? 'login' : 'signup'); setMessage(null); }}>{mode === 'signup' ? 'Already verified? Sign in' : 'Create a subscriber account'}</button></form></section>;
 }
@@ -99,7 +111,7 @@ function OwnerInvitation({ token, invitationToken }: { token: string; invitation
   return <section className="container account-shell"><div className="account-intro"><p className="eyebrow">Owner setup</p><h1>Create your owner PIN.</h1><p className="lead">This invitation is single-use and linked to the verified account that purchased the subscription. Your PIN is created by you and is never sent by RoPulse.</p></div><form className="account-card" onSubmit={accept}><h2>Complete workspace activation</h2><label>Owner invitation token<input required value={invitationToken} readOnly /></label><label>Create owner PIN<input required pattern="\d{4,12}" minLength={4} maxLength={12} inputMode="numeric" autoComplete="new-password" type="password" value={pin} onChange={event => setPin(event.target.value)} /></label>{message && <p className="form-message" role="status">{message}</p>}<button className="button" disabled={busy || !invitationToken} type="submit">{busy ? 'Activating…' : 'Activate workspace'}</button></form></section>;
 }
 
-function AccountDashboard({ token }: { token: string }) {
+function AccountDashboard({ token, onSignOut }: { token: string; onSignOut: () => void }) {
   const router = useRouter();
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
@@ -127,6 +139,7 @@ function AccountDashboard({ token }: { token: string }) {
 
   async function signOut() {
     await fetch('/api/subscriber/subscriber/auth/session', { method: 'DELETE' });
+    onSignOut();
     router.replace('/login');
   }
 
