@@ -25,6 +25,7 @@ jobs:
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - name: Production browser checks
+        timeout-minutes: 10
         shell: bash
         run: |
           npm start > /tmp/ropulse-server.log 2>&1 &

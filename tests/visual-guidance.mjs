@@ -8,6 +8,8 @@ const results = [];
 await fs.mkdir('tmp/qa', { recursive: true });
 try {
   const page = await browser.newPage({ reducedMotion: 'reduce' });
+  page.setDefaultTimeout(20000);
+  page.setDefaultNavigationTimeout(30000);
   const errors = []; page.on('pageerror', error => errors.push(error.message));
   for (const width of [320, 361, 390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 1050 });
@@ -17,7 +19,10 @@ try {
     const caption = await page.locator('.home-product figcaption').boundingBox();
     assert.ok(caption.y >= screen.y + screen.height - 1, 'Hero caption overlaps');
     assert.equal(await page.locator('.home-sector-card').count(), 4);
-    for (const image of await page.locator('.home-sectors img').all()) await image.evaluate(img => img.decode());
+    for (const image of await page.locator('.home-sectors img').all()) {
+      await image.scrollIntoViewIfNeeded();
+      await image.evaluate(img => img.decode());
+    }
     for (const copy of await page.locator('.home-sector-copy').all()) assert.ok(await copy.evaluate(node => node.scrollWidth <= node.clientWidth));
     assert.equal(await page.locator('.home-retail-link').getAttribute('href'), '/retail');
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
@@ -38,7 +43,11 @@ try {
     await page.goto(`${base}/docs/${slug}`, { waitUntil: 'load' });
     assert.equal(await page.locator('.manual-screenshot').count(), items.length, slug);
     for (const figure of await page.locator('.manual-screenshot').all()) {
-      await figure.locator('.screenshot-trigger img').evaluate(img => img.decode());
+      await figure.scrollIntoViewIfNeeded();
+      await figure.locator('.screenshot-trigger img').evaluate(img => Promise.race([
+        img.decode(),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Guide image did not decode')), 15000)),
+      ]));
       assert.ok(await figure.locator('.screenshot-trigger .screen-arrows').count(), slug);
       assert.ok(await figure.locator('figcaption .screen-instructions li').count(), slug);
     }

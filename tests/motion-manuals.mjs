@@ -7,6 +7,8 @@ await fs.mkdir('tmp/qa', { recursive: true });
 const results = [];
 try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1050 }, reducedMotion: 'reduce' });
+  page.setDefaultTimeout(20000);
+  page.setDefaultNavigationTimeout(30000);
   const errors = []; page.on('pageerror', error => errors.push(error.message));
   await page.goto(base, { waitUntil: 'load' });
   assert.equal(await page.locator('.page-transition').evaluate(node => getComputedStyle(node).animationName), 'none');
@@ -35,7 +37,13 @@ try {
   for (const slug of ['products-and-layouts', 'restaurant-and-kitchen', 'payments-and-receipts']) {
     await page.goto(`${base}/docs/${slug}`, { waitUntil: 'load' });
     assert.ok(await page.locator('.manual-screenshot').count());
-    for (const img of await page.locator('.screenshot-trigger img').all()) await img.evaluate(image => image.decode());
+    for (const img of await page.locator('.screenshot-trigger img').all()) {
+      await img.scrollIntoViewIfNeeded();
+      await img.evaluate(image => Promise.race([
+        image.decode(),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Guide image did not decode')), 15000)),
+      ]));
+    }
   }
   await page.goto(`${base}/docs/website-account-and-billing`, { waitUntil: 'load' });
   assert.equal(await page.getByText('Planned account and billing release.', { exact: true }).count(), 1);
