@@ -28,7 +28,7 @@ export function getSite(env = process.env) {
     supportEmail: email(env.SUPPORT_EMAIL || brand.supportEmail), salesEmail: email(env.SALES_EMAIL),
     identityUrl: httpsUrl(env.IDENTITY_URL),
     review: isReviewMode(env),
-    manualReview: isReviewMode(env) || env.DOCS_PUBLIC_DRAFTS !== 'false',
+    manualReview: isReviewMode(env) || env.DOCS_PUBLIC_DRAFTS === 'true',
     indexable: env.SITE_INDEXABLE === 'true' && !isReviewMode(env) && siteOrigin(env.SITE_URL).startsWith('https:'),
   };
 }

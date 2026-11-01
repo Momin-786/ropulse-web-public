@@ -14,8 +14,8 @@ and [project configuration reference](https://vercel.com/docs/project-configurat
 3. Set environment variables separately for Preview and Production. Secrets belong
    in Vercel's environment settings, never a tracked file or browser variable.
 4. Both environments: `DOCS_REVIEW_MODE=false`. Preview: `SITE_INDEXABLE=false`.
-   Keep `DOCS_PUBLIC_DRAFTS=true` for the owner-approved labelled public manual;
-   use false if the owner later chooses approved-articles-only publication.
+   Keep `DOCS_PUBLIC_DRAFTS=false` for the owner-reviewed published manual.
+   Enable it only for an explicit review deployment, not on the public site.
    Production: use `SITE_URL=https://ropulse.io`; enable indexing only after review.
    Preview `SITE_URL` must match its actual HTTPS deployment origin if testing forms.
    Do not reuse the production origin for a preview enquiry request.
@@ -43,8 +43,10 @@ and [project configuration reference](https://vercel.com/docs/project-configurat
    URL and results, and promote the reviewed deployment. Retain the previous
    deployment for rollback through Vercel. Recheck environment values on rollback.
 
-The site uses build-time public configuration on static pages. Changing those
-values requires a new deployment. Contact availability is checked per request.
+The site uses build-time operational configuration on static pages. Changing
+those values requires a new deployment. Contact availability is checked per request.
+Website content is maintained in the versioned JSON and Markdown files.
+Review content changes and redeploy the website when they are updated.
 The enquiry function's 20-second budget includes 5 seconds for Turnstile
 verification and 8 seconds for email delivery.
 Do not introduce cookie-based personalization or authenticated content into

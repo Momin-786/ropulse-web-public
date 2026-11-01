@@ -4,8 +4,8 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { Icon } from './icon';
 
-const links = [['/features', 'Platform'], ['/restaurant', 'Restaurants'], ['/retail', 'Retail'], ['/pricing', 'Plans'], ['/resources', 'Resources']];
-export function Header() {
+export function Header({ navigation }: { navigation: Array<{title: string; href: string}> }) {
+  const links = navigation.map(item => [item.href, item.title]);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const button = useRef<HTMLButtonElement>(null);

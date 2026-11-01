@@ -1,0 +1,39 @@
+{
+  "eyebrow": "Restaurant POS & business management",
+  "title": "Every order. One pulse.",
+  "description": "Take orders, manage tables and send kitchen tickets. Run your counter and backoffice with Ropulse.",
+  "primaryLabel": "Book a demo",
+  "secondaryLabel": "Explore the app",
+  "heroImage": "/images/product/desktop-light.png",
+  "heroMobileImage": "/images/product/mobile-light.png",
+  "heroAlt": "Ropulse Register showing the menu, product options and a sample order",
+  "sectorsTitle": "Built for your service.",
+  "sectorsDescription": "Choose the workflow that fits your business, from a single counter to multiple branches.",
+  "sectors": [
+    { "title": "Cafés", "description": "Build the order, add options and keep the counter moving.", "image": "/images/product/desktop-light.png", "alt": "Register catalog and sample order", "href": "/restaurant", "imagePosition": "75% 35%" },
+    { "title": "Quick service", "description": "Keep items, quantities and payment details in one view.", "image": "/images/product/checkout-1440.png", "alt": "Checkout with a sample order and payment controls", "href": "/restaurant", "imagePosition": "80% 30%" },
+    { "title": "Dine-in", "description": "See your tables and send the right tickets to the kitchen.", "image": "/images/product/floor-1440.png", "alt": "Restaurant floor with sample tables and service states", "href": "/restaurant", "imagePosition": "55% 35%" },
+    { "title": "Multiple branches", "description": "Manage branch settings, staff and business reports.", "image": "/images/product/backoffice-dashboard.png", "alt": "Backoffice dashboard with demonstration sales and branch information", "href": "/features", "imagePosition": "55% 20%" }
+  ],
+  "featuresTitle": "From the counter to the closing report.",
+  "featuresDescription": "Give your service team the tools to take the next order, and your managers the records to understand the day.",
+  "features": [
+    { "title": "Orders & checkout", "description": "Find products, add modifiers, hold orders and complete the sale with its payment and receipt records.", "image": "/images/product/checkout-1440.png", "alt": "Actual Ropulse checkout with sample payment details", "href": "/docs/register-and-checkout", "linkLabel": "Explore the Register" },
+    { "title": "Tables & kitchen tickets", "description": "Work with your floor plan, manage table service and configure KOT routing for your preparation areas.", "image": "/images/product/floor-1440.png", "alt": "Actual Ropulse restaurant floor and table controls", "href": "/docs/restaurant-and-kitchen", "linkLabel": "See restaurant service" },
+    { "title": "Catalog, stock & recipes", "description": "Organize products and options, review stock counts and work with ingredient quantities and recipe costs.", "image": "/images/product/backoffice-products.png", "alt": "Ropulse Backoffice product catalog with sample items", "href": "/docs/stock-and-recipes", "linkLabel": "Manage your catalog" },
+    { "title": "Shifts & reporting", "description": "Reconcile the shift, review branch reports and follow the original order or payment when a number needs checking.", "image": "/images/product/backoffice-dashboard.png", "alt": "Actual Ropulse dashboard showing demonstration reports", "href": "/docs/shifts-and-reports", "linkLabel": "Review business reports" }
+  ],
+  "manualTitle": "A practical guide for every role.",
+  "manualDescription": "Illustrated instructions for setting up your branch, serving customers and managing the business. Keep the printer and KOT guide close when preparing your devices.",
+  "manualImage": "/images/product/printer-kot-routing.png",
+  "manualAlt": "Ropulse KOT routing settings with demonstration preparation destinations",
+  "faqsTitle": "Before you get started",
+  "faqs": [
+    { "question": "Can I see Ropulse before choosing a setup?", "answer": "Yes. Explore real app screens in the product tour, or book a demo to discuss your service, branches and devices." },
+    { "question": "Does Ropulse support restaurant and retail workflows?", "answer": "Ropulse includes Register and Backoffice workflows for restaurants, cafés and retail. The available screens and actions depend on your business configuration and installed release." },
+    { "question": "How do I set up receipt and kitchen printers?", "answer": "The illustrated printer guide covers installation, connections, receipts, KOT routing and device bindings. Test your actual printers and ticket destinations before service." },
+    { "question": "How do I get help?", "answer": "Email support@ropulse.io. Our support hours are 10 AM–10 PM Pakistan time (UTC+5). Include your branch, device, app version and the task you need help with." }
+  ],
+  "ctaTitle": "See Ropulse with your business in mind.",
+  "ctaDescription": "Tell us about your service, branches and devices. We’ll walk through the relevant workflows with you."
+}

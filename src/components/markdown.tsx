@@ -2,12 +2,14 @@ import type { Token, Tokens } from 'marked';
 import { headingId, safeLink } from '@/lib/content.mjs';
 import { manualImage } from '@/lib/manual-images.mjs';
 import { ManualScreenshot } from './manual-screenshot';
+import type { ScreenCallout } from './annotated-screen';
+type GuideImage = { file: string; width: number; height: number; callouts: ScreenCallout[]; caption?: string };
 
-export function Markdown({ tokens, review = false }: { tokens: Token[]; review?: boolean }) {
-  return <>{tokens.map((token, index) => <MarkdownToken key={index} token={token} review={review} />)}</>;
+export function Markdown({ tokens, review = false, images = [] }: { tokens: Token[]; review?: boolean; images?: GuideImage[] }) {
+  return <>{tokens.map((token, index) => <MarkdownToken key={index} token={token} review={review} images={images} />)}</>;
 }
-function MarkdownToken({ token, review }: { token: Token; review: boolean }): React.ReactNode {
-  const child = (tokens?: Token[]) => tokens ? <Markdown tokens={tokens} review={review} /> : null;
+function MarkdownToken({ token, review, images }: { token: Token; review: boolean; images: GuideImage[] }): React.ReactNode {
+  const child = (tokens?: Token[]) => tokens ? <Markdown tokens={tokens} review={review} images={images} /> : null;
   switch (token.type) {
     case 'space': case 'html': case 'def': return null;
     case 'heading': {
@@ -23,7 +25,7 @@ function MarkdownToken({ token, review }: { token: Token; review: boolean }): Re
       const blocks: React.ReactNode[] = []; let inline: Token[] = [];
       const flush = () => { if (inline.length) { blocks.push(<p key={blocks.length}>{child(inline)}</p>); inline = []; } };
       for (const item of tokens) {
-        if (item.type === 'image') { flush(); blocks.push(<MarkdownToken key={blocks.length} token={item} review={review} />); }
+        if (item.type === 'image') { flush(); blocks.push(<MarkdownToken key={blocks.length} token={item} review={review} images={images} />); }
         else inline.push(item);
       }
       flush(); return <>{blocks}</>;
@@ -44,7 +46,7 @@ function MarkdownToken({ token, review }: { token: Token; review: boolean }): Re
       return href ? <a href={href} rel={href.startsWith('https:') ? 'noreferrer' : undefined}>{child(link.tokens)}</a> : child(link.tokens);
     }
     case 'image': {
-      const image = token as Tokens.Image; const asset = manualImage(image.href);
+      const image = token as Tokens.Image; const asset = manualImage(image.href) || images.find(item => item.file === image.href);
       return asset ? <ManualScreenshot src={asset.file} alt={image.text} caption={image.title} width={asset.width} height={asset.height} callouts={asset.callouts} /> : <span>{image.text}</span>;
     }
     case 'list': {

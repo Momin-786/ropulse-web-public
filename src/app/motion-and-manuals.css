@@ -4,7 +4,7 @@
 .guide-review-label{align-self:flex-start;margin-top:10px;margin-bottom:8px;font-size:10px}
 .screenshot-trigger:focus-visible{outline:3px solid var(--magenta);outline-offset:-4px}
 .manual-screenshot figcaption>a{display:inline-flex;align-items:center;min-height:44px;color:var(--magenta);font-size:12px;font-weight:600}
-.reveal-pending{opacity:0;transform:translateY(20px)}.reveal-visible{animation:card-arrive .55s cubic-bezier(.2,.7,.2,1) var(--reveal-delay,0ms) both}
+.reveal-pending{opacity:1;transform:none}.reveal-visible{animation:card-arrive .4s cubic-bezier(.2,.7,.2,1) var(--reveal-delay,0ms) both}
 .main-nav>a{position:relative}.main-nav>a:after{content:'';position:absolute;left:0;right:0;bottom:4px;height:2px;border-radius:2px;background:var(--magenta);transform:scaleX(0);transform-origin:left;transition:transform .2s}.main-nav>a:hover:after,.main-nav>a[aria-current]:after{transform:scaleX(1)}
 .hero-product .product-preview{position:relative;isolation:isolate;background:transparent;border-radius:18px;padding:18px 0 0;box-shadow:none}
 .hero-product .product-preview:before{content:'';position:absolute;z-index:-1;inset:50px 8px 55px;background:#eee7f2;border:1px solid #e2d9e8;border-radius:20px;transform:rotate(2.2deg)}

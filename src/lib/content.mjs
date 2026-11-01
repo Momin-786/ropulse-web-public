@@ -22,6 +22,9 @@ export function getArticle(slug, review = false) {
   const meta = availableArticles(review).find(article => article.slug === slug || article.file === slug);
   if (!meta) return null;
   const source = illustrateGuide(fs.readFileSync(path.join(process.cwd(), 'docs', 'user-guide', meta.file), 'utf8'), meta.slug);
+  return parseArticle(meta, source);
+}
+export function parseArticle(meta, source) {
   const tokens = lexer(source);
   const seen = new Map();
   const headings = [];

@@ -19,7 +19,7 @@ export function Turnstile({ siteKey, resetKey, onToken }: { siteKey: string; res
     let id: string;
     try {
       id = api.render(container.current, {
-        sitekey: siteKey, action: 'business_enquiry', theme: 'light', size: 'compact',
+        sitekey: siteKey, action: 'business_enquiry', theme: 'light', size: 'flexible',
         'response-field': false,
         callback: (token: string) => { if (active) { setFailed(false); onToken(token); } },
         'expired-callback': () => { if (active) onToken(''); },
@@ -29,7 +29,7 @@ export function Turnstile({ siteKey, resetKey, onToken }: { siteKey: string; res
     } catch { setFailed(true); onToken(''); return; }
     return () => { active = false; api.remove(id); };
   }, [ready, siteKey, resetKey, onToken]);
-  return <div className="form-full">
+  return <div className="form-full enquiry-security">
     <Script id="cloudflare-turnstile" src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" onReady={() => setReady(true)} onError={() => { setFailed(true); onToken(''); }} />
     <p className="form-note" id="enquiry-security-label">Security check</p>
     <div ref={container} role="group" aria-labelledby="enquiry-security-label" />

@@ -14,12 +14,7 @@ try {
     for (const image of await page.locator('.business-sectors img').all()) await image.evaluate(img => img.decode());
     assert.equal(await page.locator('.sector-card').count(), 4);
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-    for (const art of await page.locator('.sector-art').all()) {
-      assert.ok(await art.evaluate(node => {
-        const bounds = node.getBoundingClientRect();
-        return [...node.children].every(child => { const rect = child.getBoundingClientRect(); return rect.top >= bounds.top && rect.bottom <= bounds.bottom + 1 && child.scrollWidth <= child.clientWidth + 1; });
-      }), `Artwork clips at ${width}px`);
-    }
+    for (const copy of await page.locator('.home-sector-copy').all()) assert.ok(await copy.evaluate(node => node.scrollWidth <= node.clientWidth), `Card text clips at ${width}px`);
     if ([390, 1440].includes(width)) await page.locator('.business-sectors').screenshot({ path: `tmp/qa/unified-sectors-${width}.png`, style: '.site-header{visibility:hidden}' });
   }
   const link = page.locator('.sector-card').first();

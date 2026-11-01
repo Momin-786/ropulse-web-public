@@ -12,35 +12,17 @@ try {
   for (const width of [320, 361, 390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 1050 });
     await page.goto(base, { waitUntil: 'load' });
-    await page.locator('.preview-screen img').evaluate(img => img.decode());
-    const screen = await page.locator('.preview-screen').boundingBox();
-    const row = await page.locator('.preview-bottom').boundingBox();
-    assert.ok(row.y >= screen.y + screen.height + 12, `Hero action overlaps at ${width}px`);
-    const action = await page.locator('.preview-bottom>a').boundingBox();
-    const caption = await page.locator('.product-preview figcaption').boundingBox();
-    assert.ok(caption.y >= action.y + action.height, `Hero caption overlaps at ${width}px`);
-    assert.equal(await page.locator('.business-sector-grid>li').count(), 4);
-    assert.match(await page.locator('#service-audience-title').innerText(), /way\s+you/);
-    for (const image of await page.locator('.business-sectors img').all()) await image.evaluate(img => img.decode());
-    for (const link of await page.locator('.sector-card').all()) assert.ok(['/restaurant', '/features'].includes(await link.getAttribute('href')));
-    for (const art of await page.locator('.sector-art').all()) {
-      assert.ok(await art.evaluate(node => {
-        const bounds = node.getBoundingClientRect();
-        return [...node.children].every(child => {
-          const rect = child.getBoundingClientRect();
-          return rect.top >= bounds.top && rect.bottom <= bounds.bottom + 1 && child.scrollWidth <= child.clientWidth + 1;
-        });
-      }), `Sector artwork clips at ${width}px`);
-    }
-    assert.equal(await page.locator('.retail-service-link').getAttribute('href'), '/retail');
+    await page.locator('.home-product img').evaluate(img => img.decode());
+    const screen = await page.locator('.home-product img').boundingBox();
+    const caption = await page.locator('.home-product figcaption').boundingBox();
+    assert.ok(caption.y >= screen.y + screen.height - 1, 'Hero caption overlaps');
+    assert.equal(await page.locator('.home-sector-card').count(), 4);
+    for (const image of await page.locator('.home-sectors img').all()) await image.evaluate(img => img.decode());
+    for (const copy of await page.locator('.home-sector-copy').all()) assert.ok(await copy.evaluate(node => node.scrollWidth <= node.clientWidth));
+    assert.equal(await page.locator('.home-retail-link').getAttribute('href'), '/retail');
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-    if (width === 1440 || width === 390) {
-      await page.screenshot({ path: `tmp/qa/hero-fixed-${width}.png` });
-      await page.locator('.service-audience').screenshot({ path: `tmp/qa/service-visuals-${width}.png` });
-      await page.locator('.product-gallery').screenshot({ path: `tmp/qa/product-gallery-${width}.png`, style: '.site-header{visibility:hidden}' });
-    }
   }
-  results.push('Hero screen, action and caption do not overlap at 320/390/768/1024/1440px; four illustrated service types and retail link fit');
+  results.push('Product hero and captions do not overlap at six widths; four matching business cards and retail link fit');
   await page.goto(`${base}/docs/register-and-checkout`, { waitUntil: 'load' });
   assert.equal(await page.locator('.docs-nav-group').count(), 5);
   const group = page.locator('.docs-nav-group').first();

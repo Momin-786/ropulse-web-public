@@ -10,7 +10,7 @@ try {
   const errors = []; page.on('pageerror', error => errors.push(error.message));
   await page.goto(base, { waitUntil: 'load' });
   assert.equal(await page.locator('.page-transition').evaluate(node => getComputedStyle(node).animationName), 'none');
-  assert.equal(await page.locator('.product-preview').evaluate(node => getComputedStyle(node).backgroundColor), 'rgba(0, 0, 0, 0)');
+  assert.equal(await page.locator('.home-product img').count(), 1);
   await page.screenshot({ path: 'tmp/qa/hero-light-desktop.png', fullPage: false });
   await page.goto(`${base}/docs`, { waitUntil: 'load' });
   assert.equal(await page.locator('.guide-card').count(), 15);
@@ -39,7 +39,7 @@ try {
   }
   await page.goto(`${base}/docs/website-account-and-billing`, { waitUntil: 'load' });
   assert.equal(await page.getByText('Planned account and billing release.', { exact: true }).count(), 1);
-  results.push('All 15 manuals visible with draft labels/noindex; planned billing remains labelled; real images load in four task guides');
+  results.push('All 15 published manuals visible; preview indexing remains disabled; planned billing remains labelled; real images load in four task guides');
   results.push('Screenshot dialog: opens, image loads, Escape and close restore focus');
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(base, { waitUntil: 'load' });

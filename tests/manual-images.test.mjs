@@ -24,11 +24,12 @@ test('illustration overlays attach to real tasks without changing release approv
   assert.ok(getArticle('register-and-checkout', false));
 });
 test('public draft visibility is separate from site-wide review and indexing', () => {
-  const publicDrafts = getSite({ SITE_URL: 'https://ropulse.io', SITE_INDEXABLE: 'true', DOCS_REVIEW_MODE: 'false' });
+  const publicDrafts = getSite({ SITE_URL: 'https://ropulse.io', SITE_INDEXABLE: 'true', DOCS_REVIEW_MODE: 'false', DOCS_PUBLIC_DRAFTS: 'true' });
   assert.equal(publicDrafts.review, false);
   assert.equal(publicDrafts.manualReview, true);
   assert.equal(publicDrafts.indexable, true);
   assert.equal(getSite({ DOCS_PUBLIC_DRAFTS: 'false' }).manualReview, false);
+  assert.equal(getSite({ NODE_ENV: 'production' }).manualReview, false);
 });
 test('guidance arrows reference real captures and stay within each image', () => {
   for (const [file, items] of Object.entries(callouts)) {

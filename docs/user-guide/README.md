@@ -51,6 +51,8 @@ sees and how to investigate a difference without changing historical records.
 
 ## Follow a first-branch setup route
 
+For branches with the meal-enabled release, read [Meals, deals and recommendations](16-meals-deals-and-recommendations.md) to configure offers, choose extras, review totals and recover saved meals. This chapter remains in review pending branch activation checks.
+
 Work through these stages in order. Later tasks depend on earlier decisions;
 for example, publishing a product tile will not create an active selling price.
 

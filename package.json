@@ -17,7 +17,8 @@
     "test:visual": "node tests/visual-guidance.mjs",
     "check:launch": "node --env-file-if-exists=.env.local scripts/check-launch.mjs",
     "check:security": "node scripts/check-security.mjs",
-    "build:release": "npm run check:security && npm run build"
+    "build:release": "npm run check:security && npm run build",
+    "test:professional": "node tests/professional-website.mjs"
   },
   "dependencies": {
     "marked": "17.0.5",

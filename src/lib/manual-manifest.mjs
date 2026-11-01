@@ -18,6 +18,7 @@ export const manual = [
   ['13-subscription-and-support.md', 'subscription-and-support', 'Subscription & support', 'Account', 'Software subscriptions, renewal and support.'],
   ['14-orders-approvals-and-administration.md', 'orders-and-administration', 'Orders & administration', 'Manage', 'Find orders, handle approvals and review history.'],
   ['15-website-account-and-billing.md', 'website-account-and-billing', 'Website account & billing', 'Account', 'Planned shared-account and automated billing journey.'],
+  ['16-meals-deals-and-recommendations.md', 'meals-and-deals', 'Meals, deals & recommendations', 'Day to day', 'Set up branch offers and guide cashiers through meal choices, review and recovery.'],
 ].map(([file, slug, title, group, description]) => ({
   file, slug, title, group, description,
   status: 'review', reviewer: null, reviewedAt: null, release: null,

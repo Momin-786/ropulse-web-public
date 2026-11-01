@@ -94,3 +94,5 @@ and approval warning before dispatch.
 At the end of service, review open/held/table orders and unresolved kitchen jobs
 with the next shift or manager. A clean screen is not proof that every guest
 has paid or that every preparation request has been fulfilled.
+
+For meal-enabled branches, see [Meals, deals and recommendations](16-meals-deals-and-recommendations.md#receipts-and-kitchen-tickets) for meal component routing, receipt charges and kitchen references.

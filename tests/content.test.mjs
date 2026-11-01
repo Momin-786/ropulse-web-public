@@ -8,9 +8,9 @@ import { searchArticles } from '../src/lib/search.mjs';
 import { getSite, httpsUrl, email, siteOrigin } from '../src/lib/site.mjs';
 import { releaseErrors } from '../src/lib/releases.mjs';
 
-test('all 15 source chapters are explicitly mapped, unique and readable in review mode', () => {
-  assert.equal(manual.length, 15);
-  assert.equal(new Set(manual.map(a => a.slug)).size, 15);
+test('all 16 source chapters are explicitly mapped, unique and readable in review mode', () => {
+  assert.equal(manual.length, 16);
+  assert.equal(new Set(manual.map(a => a.slug)).size, 16);
   for (const meta of manual) {
     const article = getArticle(meta.slug, true);
     assert.ok(article.source.length > 1000);
@@ -62,7 +62,7 @@ test('full text search handles tasks, title weighting, multiple terms and empty 
   assert.equal(searchArticles(docs, 'printer')[0].slug, 'hardware-and-printing');
   assert.ok(searchArticles(docs, 'held order').some(a => a.slug === 'register-and-checkout'));
   assert.equal(searchArticles(docs, 'zzzznothingherezzzz').length, 0);
-  assert.equal(searchArticles(docs, '   ').length, 15);
+  assert.equal(searchArticles(docs, '   ').length, 16);
 });
 test('headings normalize punctuation and support readable anchors', () => assert.equal(headingId('Charge & settle!'), 'charge-settle'));
 test('site configuration prevents unsafe URLs and review indexing', () => {

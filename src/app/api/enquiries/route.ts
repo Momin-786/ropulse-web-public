@@ -3,7 +3,7 @@ import { getSite } from '@/lib/site.mjs';
 import { validateEnquiry } from '@/lib/contact.mjs';
 import { enquiryDeliveryConfigured, deliverVerifiedEnquiry } from '@/lib/enquiry-delivery.mjs';
 import { turnstileConfigured } from '@/lib/turnstile.mjs';
-import policies from '@/content/policies.json';
+import { getPolicies } from '@/lib/editorial.mjs';
 export const runtime = 'nodejs';
 export const maxDuration = 20;
 export async function POST(request: Request) {
@@ -25,6 +25,7 @@ export async function POST(request: Request) {
   try { input = JSON.parse(Buffer.concat(chunks).toString('utf8')); } catch { return Response.json({ ok: false, message: 'Check the form and try again.' }, { status: 400 }); }
   const { value, errors } = validateEnquiry(input);
   if (Object.keys(errors).length) return Response.json({ ok: false, errors, message: 'Please check the highlighted fields.' }, { status: 422 });
+  const policies = await getPolicies();
   if (!policies.privacy.approved || !policies.privacy.body || !policies.privacy.reviewedAt || !site.company || !enquiryDeliveryConfigured() || !turnstileConfigured()) return Response.json({ ok: false, message: 'Online enquiries are not available yet. Please use the contact option shown on the page.' }, { status: 503 });
   const supplied = request.headers.get('idempotency-key');
   const requestId = supplied && /^[0-9a-f-]{36}$/i.test(supplied) ? supplied : randomUUID();

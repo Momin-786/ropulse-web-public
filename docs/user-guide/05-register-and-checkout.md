@@ -105,3 +105,5 @@ workflow. Settling a payment, printing a receipt and sending a kitchen ticket
 are separate actions with separate results. Read
 [payments, receipts and corrections](07-payments-receipts-and-corrections.md)
 for the detailed tender and recovery process.
+
+For meal-enabled branches, follow [Meals, deals and recommendations](16-meals-deals-and-recommendations.md#take-an-order) to offer extras, review the updated total and manage a saved meal.

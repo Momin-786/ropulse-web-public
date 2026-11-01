@@ -95,3 +95,5 @@ large catalog. Start with a small representative set and inspect categories,
 identifiers and prices afterwards. Exported product data should be handled as
 business information. For ingredients and recipes, continue with
 [stock and recipes](09-stock-ingredients-and-recipes.md).
+
+For meal-enabled branches, follow [Meals, deals and recommendations](16-meals-deals-and-recommendations.md#enable-the-branch) to assign main, side and drink roles, preview offers and save branch settings.
