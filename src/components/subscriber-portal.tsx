@@ -166,10 +166,37 @@ function SubscriptionCheckout({ token, initialInvoiceId, tracker }: { token: str
   useEffect(() => {
     if (!initialInvoiceId) return;
     if (tracker) request('subscriber/billing/invoices/' + initialInvoiceId + '/checkout-status', { method: 'POST', body: JSON.stringify({ tracker }) }, token).catch(() => undefined);
-    const load = () => request<Fulfilment>('subscriber/billing/invoices/' + initialInvoiceId + '/fulfilment', {}, token).then(setFulfilment).catch(error => setMessage(error.message));
-    load();
-    const interval = window.setInterval(load, 10000);
-    return () => window.clearInterval(interval);
+    let stopped = false;
+    let pending = false;
+    const controller = new AbortController();
+    const load = async () => {
+      if (stopped || pending) return;
+      pending = true;
+      try {
+        const status = await request<Fulfilment>('subscriber/billing/invoices/' + initialInvoiceId + '/fulfilment', { signal: controller.signal }, token);
+        if (stopped) return;
+        setFulfilment(status);
+        setMessage(null);
+        if (status.invoiceStatus === 'EXPIRED' ||
+            (status.invoiceStatus === 'PAID' &&
+              (status.fulfilmentStatus === 'COMPLETED' || status.fulfilmentStatus === 'FAILED'))) {
+          stopped = true;
+          window.clearInterval(interval);
+        }
+      } catch (error) {
+        if (!stopped) setMessage(error instanceof Error ? error.message : 'Could not check payment status.');
+      } finally {
+        pending = false;
+      }
+    };
+    const interval = window.setInterval(() => { void load(); }, 10000);
+    setFulfilment(null);
+    void load();
+    return () => {
+      stopped = true;
+      window.clearInterval(interval);
+      controller.abort();
+    };
   }, [initialInvoiceId, token, tracker]);
 
   async function createInvoice(event: FormEvent<HTMLFormElement>) {
