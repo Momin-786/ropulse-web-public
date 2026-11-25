@@ -1,18 +1,52 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 type Plan = { id: string; name: string; code: string; monthlyPrice: string; currency: string };
-type AddOn = { versionId: string; name: string; unitPrice: string; currency: string; scopeType: string };
+type AddOn = { code: string; versionId: string; name: string; unitPrice: string; currency: string; scopeType: string; effectiveFrom?: string; effectiveUntil?: string | null };
 type Catalog = { planVersions: Plan[]; addOns: AddOn[] };
 type Invoice = { id: string; status: string; total: string; currency: string; expiresAt?: string };
-type Fulfilment = { invoiceStatus: string; fulfilmentStatus: string | null; recoveryMessage: string | null };
+type Fulfilment = { invoiceStatus: string; fulfilmentStatus: string | null; recoveryMessage: string | null; provisioningJobId?: string | null };
 type Workspace = { tenantId: string; workspaceCode: string; displayName: string };
-type Licensing = { subscription: { id: string; status: string; planCode: string; currentPeriodEnd: string | null; cancellationEffectiveAt: string | null } };
+type Licensing = { subscription: { id: string; status: string; provider?: string; planCode: string; currentPeriodEnd: string | null; cancellationEffectiveAt: string | null } };
+
+type KitchenBranch = { branchId: string; name: string; included: boolean; extraScreens: number };
+type KitchenCheckout = {
+  workspaceName: string; planVersionId: string; currency: string; branchQuantity: number;
+  additionalTerminalQuantity: number; addOnVersionIds: string[]; branches: KitchenBranch[];
+};
 
 const idempotencyKey = () => crypto.randomUUID();
+const kitchenBaseCode = 'KITCHEN_DISPLAY_BRANCH';
+const kitchenExtraCode = 'ADDITIONAL_KITCHEN_DISPLAY';
+
+function activeKitchenOffer(addOns: AddOn[], code: string, currency = 'PKR') {
+  const now = Date.now();
+  return addOns.find(offer => offer.code === code && offer.versionId && offer.currency === currency
+    && (!offer.effectiveFrom || Date.parse(offer.effectiveFrom) <= now)
+    && (!offer.effectiveUntil || Date.parse(offer.effectiveUntil) > now));
+}
+
+function KitchenCheckoutOptions({ base, extra, enabled, extraScreens, onEnabled, onExtraScreens }: {
+  base: AddOn; extra?: AddOn; enabled: boolean; extraScreens: string;
+  onEnabled: (enabled: boolean) => void; onExtraScreens: (quantity: string) => void;
+}) {
+  return <fieldset>
+    <legend>Kitchen Display</legend>
+    <label className="check-field">
+      <input type="checkbox" checked={enabled} onChange={event => onEnabled(event.target.checked)} />
+      Add RoPulse Kitchen to your first branch · {base.currency} {base.unitPrice}/month
+    </label>
+    <p>Includes one screen for receiving orders and marking items ready.</p>
+    {enabled && extra ? <label>
+      Additional screens · {extra.currency} {extra.unitPrice} each per month
+      <input type="number" min="0" max="100" step="1" required value={extraScreens}
+        onChange={event => onExtraScreens(event.target.value)} />
+    </label> : null}
+  </fieldset>;
+}
 
 async function request<T>(path: string, options: RequestInit = {}, _session?: string): Promise<T> {
   const headers = new Headers(options.headers);
@@ -92,6 +126,10 @@ export function SubscriberPortal({ page }: { page: 'login' | 'signup' | 'account
   if (token && (page === 'login' || page === 'signup')) return <section className="container account-shell"><h1>Opening your account…</h1></section>;
   if (token && page === 'owner-invitation') return <OwnerInvitation token={token} invitationToken={search.get('token') || ''} />;
   if (token && page === 'account') return <AccountDashboard token={token} onSignOut={() => setToken(null)} />;
+  const kitchenWorkspace = search.get('kitchenTenant');
+  if (token && kitchenWorkspace && !search.get('invoiceId')) {
+    return <KitchenSubscriptionCheckout key={kitchenWorkspace} token={token} tenantId={kitchenWorkspace} />;
+  }
   if (token) return <SubscriptionCheckout token={token} initialInvoiceId={search.get('invoiceId')} tracker={search.get('tracker') || search.get('tracker_token')} />;
   return <section className="container account-shell"><div className="account-intro"><p className="eyebrow">RoPulse account</p><h1>{mode === 'signup' ? 'Start with a verified account.' : 'Sign in to your business.'}</h1><p className="lead">One account holds your subscription, business workspace and owner access. You create your own credentials. RoPulse never displays a default password or PIN.</p></div><form className="account-card" onSubmit={submit}><h2>{mode === 'signup' ? 'Create your account' : 'Welcome back'}</h2><label>Email address<input required autoComplete="email" type="email" value={email} onChange={event => setEmail(event.target.value)} /></label><label>Password<input required minLength={12} autoComplete={mode === 'signup' ? 'new-password' : 'current-password'} type="password" value={password} onChange={event => setPassword(event.target.value)} /></label>{message && <p className="form-message" role="status">{message}</p>}<button className="button" disabled={busy} type="submit">{busy ? 'Please wait…' : mode === 'signup' ? 'Create account' : 'Sign in'}</button><button className="text-button" type="button" onClick={() => { setMode(mode === 'signup' ? 'login' : 'signup'); setMessage(null); }}>{mode === 'signup' ? 'Already verified? Sign in' : 'Create a subscriber account'}</button></form></section>;
 }
@@ -143,7 +181,117 @@ function AccountDashboard({ token, onSignOut }: { token: string; onSignOut: () =
     router.replace('/login');
   }
 
-  return <section className="container account-shell"><div className="account-intro"><p className="eyebrow">RoPulse account</p><h1>Your subscriptions and workspaces.</h1><p className="lead">Review commercial invoices, the current service period, and renewal status. Cancellation stops future Safepay renewal; it does not remove access already paid for.</p></div><div className="account-card"><h2>Invoices</h2>{invoices.length ? <ul>{invoices.map(invoice => <li key={invoice.id}><strong>{invoice.currency} {invoice.total}</strong> · {invoice.status}{invoice.expiresAt ? ` · expires ${new Date(invoice.expiresAt).toLocaleString()}` : ''}</li>)}</ul> : <p>No commercial invoices yet.</p>}<button className="text-button" type="button" onClick={() => router.push('/checkout')}>Buy or change a subscription</button></div><div className="account-card"><h2>Workspaces and renewal</h2>{workspaces.length ? workspaces.map(workspace => { const subscription = licenses[workspace.tenantId]?.subscription; return <div key={workspace.tenantId}><h3>{workspace.displayName}</h3><p>{workspace.workspaceCode}{subscription ? ` · ${subscription.planCode} · ${subscription.status}` : ''}</p>{subscription?.cancellationEffectiveAt ? <p>Cancellation takes effect {new Date(subscription.cancellationEffectiveAt).toLocaleDateString()}.</p> : subscription ? <><p>Paid through {subscription.currentPeriodEnd ? new Date(subscription.currentPeriodEnd).toLocaleDateString() : 'the current service period'}.</p><button className="text-button" type="button" disabled={busy} onClick={() => void cancel(subscription.id)}>Cancel future renewal</button></> : <p>Loading subscription details…</p>}</div>; }) : <p>No active workspaces yet.</p>}</div>{message && <p className="form-message" role="status">{message}</p>}<button className="text-button" type="button" onClick={() => void signOut()}>Sign out</button></section>;
+  return <section className="container account-shell"><div className="account-intro"><p className="eyebrow">RoPulse account</p><h1>Your subscriptions and workspaces.</h1><p className="lead">Review commercial invoices, the current service period, and renewal status. Cancellation stops future Safepay renewal; it does not remove access already paid for.</p></div><div className="account-card"><h2>Invoices</h2>{invoices.length ? <ul>{invoices.map(invoice => <li key={invoice.id}><strong>{invoice.currency} {invoice.total}</strong> · {invoice.status}{invoice.expiresAt ? ` · expires ${new Date(invoice.expiresAt).toLocaleString()}` : ''}</li>)}</ul> : <p>No commercial invoices yet.</p>}<button className="text-button" type="button" onClick={() => router.push('/checkout')}>Buy or change a subscription</button></div><div className="account-card"><h2>Workspaces and renewal</h2>{workspaces.length ? workspaces.map(workspace => { const subscription = licenses[workspace.tenantId]?.subscription; return <div key={workspace.tenantId}><h3>{workspace.displayName}</h3><p>{workspace.workspaceCode}{subscription ? ` · ${subscription.planCode} · ${subscription.status}` : ''}</p>{subscription?.cancellationEffectiveAt ? <p>Cancellation takes effect {new Date(subscription.cancellationEffectiveAt).toLocaleDateString()}.</p> : subscription ? <><p>Paid through {subscription.currentPeriodEnd ? new Date(subscription.currentPeriodEnd).toLocaleDateString() : 'the current service period'}.</p>{subscription.provider === 'SAFEPAY' ? <button className="text-button" type="button" onClick={() => router.push(`/checkout?kitchenTenant=${encodeURIComponent(workspace.tenantId)}`)}>Manage Kitchen Display</button> : null}<button className="text-button" type="button" disabled={busy} onClick={() => void cancel(subscription.id)}>Cancel future renewal</button></> : <p>Loading subscription details…</p>}</div>; }) : <p>No active workspaces yet.</p>}</div>{message && <p className="form-message" role="status">{message}</p>}<button className="text-button" type="button" onClick={() => void signOut()}>Sign out</button></section>;
+}
+
+function KitchenSubscriptionCheckout({ token, tenantId }: { token: string; tenantId: string }) {
+  const [configuration, setConfiguration] = useState<KitchenCheckout | null>(null);
+  const [offers, setOffers] = useState<AddOn[]>([]);
+  const [selections, setSelections] = useState<KitchenBranch[]>([]);
+  const [invoice, setInvoice] = useState<Invoice | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const invoiceIntent = useRef<{ body: string; key: string } | null>(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const options = { signal: controller.signal };
+    Promise.all([
+      request<KitchenCheckout>(`subscriber/tenants/${tenantId}/licensing/kitchen-checkout`, options, token),
+      request<Catalog>('subscriber/billing/catalog', options, token),
+    ]).then(([current, catalog]) => {
+      if (controller.signal.aborted) return;
+      setConfiguration(current);
+      setSelections(current.branches);
+      setOffers(catalog.addOns);
+    }).catch(error => {
+      if (!controller.signal.aborted) setMessage(error.message);
+    });
+    return () => controller.abort();
+  }, [tenantId, token]);
+
+  const base = configuration ? activeKitchenOffer(offers, kitchenBaseCode, configuration.currency) : undefined;
+  const extra = configuration ? activeKitchenOffer(offers, kitchenExtraCode, configuration.currency) : undefined;
+  const needsUnavailableOffer = selections.some(branch => branch.included && (!base || (branch.extraScreens > 0 && !extra)));
+  const changed = configuration?.branches.some((branch, index) => {
+    const selected = selections[index];
+    return selected && (branch.included !== selected.included || (selected.included && branch.extraScreens !== selected.extraScreens));
+  });
+
+  function updateBranch(branchId: string, update: Partial<Pick<KitchenBranch, 'included' | 'extraScreens'>>) {
+    setSelections(current => current.map(branch => branch.branchId === branchId ? { ...branch, ...update } : branch));
+    setInvoice(null);
+  }
+
+  async function createInvoice(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (busy || !configuration || !changed || needsUnavailableOffer) return;
+    setBusy(true);
+    setMessage(null);
+    const kitchenDisplays = base ? selections.filter(branch => branch.included).map(branch => ({
+      branchId: branch.branchId,
+      baseVersionId: base.versionId,
+      extraVersionId: branch.extraScreens > 0 ? extra?.versionId : null,
+      extraScreens: branch.extraScreens,
+    })) : [];
+    const body = JSON.stringify({
+      planVersionId: configuration.planVersionId, branchQuantity: configuration.branchQuantity,
+      additionalTerminalQuantity: configuration.additionalTerminalQuantity, addOnVersionIds: configuration.addOnVersionIds,
+      currency: configuration.currency, billingCycle: 'MONTHLY', businessProfileCode: 'RESTAURANT',
+      acceptedTermsVersion: '2026-09', kitchenDisplays,
+    });
+    if (invoiceIntent.current?.body !== body) invoiceIntent.current = { body, key: idempotencyKey() };
+    try {
+      setInvoice(await request<Invoice>(`subscriber/billing/tenants/${tenantId}/replacement-invoices`, {
+        method: 'POST', headers: { 'Idempotency-Key': invoiceIntent.current.key }, body,
+      }, token));
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Could not price the subscription change.');
+    } finally { setBusy(false); }
+  }
+
+  async function startCheckout() {
+    if (!invoice || busy) return;
+    setBusy(true);
+    setMessage(null);
+    try {
+      const result = await request<{ hostedCheckoutUrl: string }>(`subscriber/billing/invoices/${invoice.id}/checkout`, {
+        method: 'POST', body: JSON.stringify({ provider: 'SAFEPAY' }),
+      }, token);
+      window.location.assign(result.hostedCheckoutUrl);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Safepay checkout could not be started.');
+      setBusy(false);
+    }
+  }
+
+  return <section className="container checkout-shell">
+    <div className="account-intro"><h1>Manage Kitchen Display</h1>{configuration ? <p>{configuration.workspaceName}</p> : null}</div>
+    {configuration ? <form className="checkout-card" onSubmit={createInvoice}>
+      <h2>Choose branches and screens</h2>
+      {selections.length === 0 ? <p>This workspace has no active restaurant branches.</p> : null}
+      {selections.map(branch => <fieldset key={branch.branchId}>
+        <legend>{branch.name}</legend>
+        <label className="check-field"><input type="checkbox" checked={branch.included}
+          disabled={busy || (!base && !branch.included)}
+          onChange={event => updateBranch(branch.branchId, { included: event.target.checked })} />
+          Include Kitchen Display{base ? ` · ${base.currency} ${base.unitPrice}/month` : ''}
+        </label>
+        {branch.included ? <label>Additional screens{extra ? ` · ${extra.currency} ${extra.unitPrice} each/month` : ''}
+          <input type="number" min="0" max="100" step="1" required disabled={busy || !extra}
+            value={branch.extraScreens} onChange={event => updateBranch(branch.branchId, { extraScreens: Number(event.target.value) })} />
+          <span>{1 + branch.extraScreens} screens including the first screen</span>
+        </label> : null}
+      </fieldset>)}
+      {needsUnavailableOffer ? <p>The current catalog has no price for one of the selected screen options.</p> : null}
+      <button className="button" disabled={busy || !changed || needsUnavailableOffer} type="submit">Review recurring total</button>
+    </form> : message ? null : <p>Loading your subscription and eligible branches…</p>}
+    {invoice ? <div className="checkout-card purchase-summary"><h2>Review subscription change</h2>
+      <p>{invoice.currency} {invoice.total} per month. Kitchen Display changes after Safepay confirms the replacement subscription.</p>
+      <button className="button" disabled={busy} onClick={() => void startCheckout()} type="button">Continue to Safepay</button>
+    </div> : null}
+    {message ? <p className="form-message" role="status">{message}</p> : null}
+  </section>;
 }
 
 function SubscriptionCheckout({ token, initialInvoiceId, tracker }: { token: string; initialInvoiceId: string | null; tracker: string | null }) {
@@ -153,6 +301,8 @@ function SubscriptionCheckout({ token, initialInvoiceId, tracker }: { token: str
   const [branches, setBranches] = useState('1');
   const [terminals, setTerminals] = useState('0');
   const [addOns, setAddOns] = useState<string[]>([]);
+  const [kitchenEnabled, setKitchenEnabled] = useState(false);
+  const [extraKitchenScreens, setExtraKitchenScreens] = useState('0');
   const [invoice, setInvoice] = useState<Invoice | null>(null);
   const [business, setBusiness] = useState({ legalName: '', displayName: '', workspaceCode: '', initialBranchName: '', timezone: 'Asia/Karachi', region: 'PK' });
   const [provisioningSaved, setProvisioningSaved] = useState(false);
@@ -160,23 +310,68 @@ function SubscriptionCheckout({ token, initialInvoiceId, tracker }: { token: str
   const [message, setMessage] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
+  const listedAddOns = catalog?.addOns ?? [];
+  const otherAddOns = listedAddOns.filter(offer => offer.code !== kitchenBaseCode && offer.code !== kitchenExtraCode);
+  const kitchenBase = profile === 'RETAIL' ? undefined : activeKitchenOffer(listedAddOns, kitchenBaseCode);
+  const kitchenExtra = kitchenBase ? activeKitchenOffer(listedAddOns, kitchenExtraCode) : undefined;
+
   useEffect(() => {
     request<Catalog>('subscriber/billing/catalog', {}, token).then(setCatalog).catch(error => setMessage(error.message));
   }, [token]);
   useEffect(() => {
     if (!initialInvoiceId) return;
     if (tracker) request('subscriber/billing/invoices/' + initialInvoiceId + '/checkout-status', { method: 'POST', body: JSON.stringify({ tracker }) }, token).catch(() => undefined);
-    const load = () => request<Fulfilment>('subscriber/billing/invoices/' + initialInvoiceId + '/fulfilment', {}, token).then(setFulfilment).catch(error => setMessage(error.message));
-    load();
-    const interval = window.setInterval(load, 10000);
-    return () => window.clearInterval(interval);
+    let stopped = false;
+    let pending = false;
+    const controller = new AbortController();
+    const load = async () => {
+      if (stopped || pending) return;
+      pending = true;
+      try {
+        const status = await request<Fulfilment>('subscriber/billing/invoices/' + initialInvoiceId + '/fulfilment', { signal: controller.signal }, token);
+        if (stopped) return;
+        setFulfilment(status);
+        setMessage(null);
+        if (status.invoiceStatus === 'EXPIRED' ||
+            (status.invoiceStatus === 'PAID' &&
+              (status.fulfilmentStatus === 'COMPLETED' || status.fulfilmentStatus === 'FAILED'))) {
+          stopped = true;
+          window.clearInterval(interval);
+        }
+      } catch (error) {
+        if (!stopped) setMessage(error instanceof Error ? error.message : 'Could not check payment status.');
+      } finally {
+        pending = false;
+      }
+    };
+    const interval = window.setInterval(() => { void load(); }, 10000);
+    setFulfilment(null);
+    void load();
+    return () => {
+      stopped = true;
+      window.clearInterval(interval);
+      controller.abort();
+    };
   }, [initialInvoiceId, token, tracker]);
 
   async function createInvoice(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setBusy(true); setMessage(null);
     try {
-      const created = await request<Invoice>('subscriber/billing/invoices', { method: 'POST', headers: { 'Idempotency-Key': idempotencyKey() }, body: JSON.stringify({ planVersionId, branchQuantity: Number(branches), additionalTerminalQuantity: Number(terminals), addOnVersionIds: addOns, billingCycle: 'MONTHLY', currency: 'PKR', businessProfileCode: profile, acceptedTermsVersion: '2026-09' }) }, token);
+      const extraScreens = kitchenExtra ? Number(extraKitchenScreens) : 0;
+      const kitchenDisplays = kitchenEnabled && kitchenBase ? [{
+        branchId: null,
+        baseVersionId: kitchenBase.versionId,
+        extraVersionId: extraScreens > 0 ? kitchenExtra?.versionId : null,
+        extraScreens,
+      }] : [];
+      const created = await request<Invoice>('subscriber/billing/invoices', {
+        method: 'POST', headers: { 'Idempotency-Key': idempotencyKey() }, body: JSON.stringify({
+          planVersionId, branchQuantity: Number(branches), additionalTerminalQuantity: Number(terminals),
+          addOnVersionIds: addOns, billingCycle: 'MONTHLY', currency: 'PKR', businessProfileCode: profile,
+          acceptedTermsVersion: '2026-09', kitchenDisplays,
+        }),
+      }, token);
       setInvoice(created); setProvisioningSaved(false);
     } catch (error) { setMessage(error instanceof Error ? error.message : 'Could not create your purchase.'); } finally { setBusy(false); }
   }
@@ -195,6 +390,9 @@ function SubscriptionCheckout({ token, initialInvoiceId, tracker }: { token: str
     try { const result = await request<{ hostedCheckoutUrl: string }>('subscriber/billing/invoices/' + invoice.id + '/checkout', { method: 'POST', body: JSON.stringify({ provider: 'SAFEPAY' }) }, token); window.location.assign(result.hostedCheckoutUrl); } catch (error) { setMessage(error instanceof Error ? error.message : 'Safepay checkout could not be started.'); setBusy(false); }
   }
 
-  if (initialInvoiceId) return <section className="container account-shell"><div className="account-intro"><p className="eyebrow">Subscription status</p><h1>We are confirming your payment.</h1><p className="lead">Safepay completion is not activation. RoPulse activates the workspace only after Safepay sends verified payment evidence.</p></div><div className="account-card">{!fulfilment ? <p>Checking Safepay and workspace setup…</p> : <><h2>{fulfilment.invoiceStatus === 'PAID' && fulfilment.fulfilmentStatus === 'COMPLETED' ? 'Your workspace is ready.' : 'Payment and setup status'}</h2><p>{fulfilment.invoiceStatus === 'PAID' && fulfilment.fulfilmentStatus === 'COMPLETED' ? 'Check your email for the single-use owner invitation. Use it to create your owner PIN, then continue in RoPulse Backoffice.' : fulfilment.recoveryMessage || 'Your payment is awaiting Safepay confirmation or your workspace is being provisioned. This page refreshes automatically.'}</p></>}{message && <p className="form-message">{message}</p>}</div></section>;
-  return <section className="container checkout-shell"><div className="account-intro"><p className="eyebrow">Safepay subscription</p><h1>Build your RoPulse subscription.</h1><p className="lead">Prices and commercial limits are calculated by RoPulse. Safepay collects the approved recurring subscription only after you confirm your business information.</p></div>{catalog ? <form className="checkout-card" onSubmit={createInvoice}><h2>Choose your subscription</h2><label>Plan<select required value={planVersionId} onChange={event => setPlanVersionId(event.target.value)}><option value="">Choose a plan</option>{catalog.planVersions.map(plan => <option key={plan.id} value={plan.id}>{plan.name} · {plan.currency} {plan.monthlyPrice}/month</option>)}</select></label><label>Business profile<select value={profile} onChange={event => setProfile(event.target.value)}><option value="RESTAURANT">Restaurant</option><option value="RETAIL">Retail</option><option value="HYBRID">Hybrid</option></select></label><label>Active branches<input required min="1" type="number" value={branches} onChange={event => setBranches(event.target.value)} /></label><label>Additional Register terminals<input required min="0" type="number" value={terminals} onChange={event => setTerminals(event.target.value)} /></label>{catalog.addOns.length > 0 && <fieldset><legend>Optional add-ons</legend>{catalog.addOns.map(addOn => <label className="check-field" key={addOn.versionId}><input type="checkbox" checked={addOns.includes(addOn.versionId)} onChange={event => setAddOns(event.target.checked ? [...addOns, addOn.versionId] : addOns.filter(id => id !== addOn.versionId))} />{addOn.name} · {addOn.currency} {addOn.unitPrice}</label>)}</fieldset>}<button className="button" disabled={busy || !planVersionId} type="submit">Create purchase summary</button></form> : <p>Loading available subscriptions…</p>}{invoice && <form className="checkout-card" onSubmit={saveBusiness}><h2>Business information</h2><p>Your workspace is created only after Safepay verifies the payment.</p>{Object.entries(business).map(([key, value]) => <label key={key}>{key === 'legalName' ? 'Legal business name' : key === 'displayName' ? 'Display name' : key === 'workspaceCode' ? 'Workspace code' : key === 'initialBranchName' ? 'First branch name' : key === 'timezone' ? 'Timezone' : 'Region'}<input required value={value} pattern={key === 'workspaceCode' ? '[a-z0-9]+(-[a-z0-9]+)*' : undefined} onChange={event => setBusiness({ ...business, [key]: event.target.value })} /></label>)}<button className="button button-secondary" disabled={busy} type="submit">{provisioningSaved ? 'Update business information' : 'Save business information'}</button></form>}{invoice && <div className="checkout-card purchase-summary"><h2>Subscription summary</h2><p>{invoice.currency} {invoice.total} due now. Renewal is handled by Safepay until you cancel through your RoPulse account.</p><button className="button" disabled={busy || !provisioningSaved} onClick={startCheckout} type="button">Continue to Safepay</button></div>}{message && <p className="form-message">{message}</p>}</section>;
+  if (initialInvoiceId) return <section className="container account-shell"><div className="account-intro"><p className="eyebrow">Subscription status</p><h1>We are confirming your payment.</h1><p className="lead">Safepay completion is not activation. RoPulse activates the workspace only after Safepay sends verified payment evidence.</p></div><div className="account-card">{!fulfilment ? <p>Checking Safepay and workspace setup…</p> : <><h2>{fulfilment.invoiceStatus === 'PAID' && fulfilment.fulfilmentStatus === 'COMPLETED' ? (fulfilment.provisioningJobId === null ? 'Your subscription is updated.' : 'Your workspace is ready.') : 'Payment and setup status'}</h2><p>{fulfilment.invoiceStatus === 'PAID' && fulfilment.fulfilmentStatus === 'COMPLETED' ? (fulfilment.provisioningJobId === null ? 'Open Kitchen displays in Back Office to pair your screens.' : 'Check your email for the single-use owner invitation. Use it to create your owner PIN, then continue in RoPulse Backoffice.') : fulfilment.recoveryMessage || 'Your payment is awaiting Safepay confirmation or your workspace is being provisioned. This page refreshes automatically.'}</p></>}{message && <p className="form-message">{message}</p>}</div></section>;
+  return <section className="container checkout-shell"><div className="account-intro"><p className="eyebrow">Safepay subscription</p><h1>Build your RoPulse subscription.</h1><p className="lead">Prices and commercial limits are calculated by RoPulse. Safepay collects the approved recurring subscription only after you confirm your business information.</p></div>{catalog ? <form className="checkout-card" onSubmit={createInvoice}><h2>Choose your subscription</h2><label>Plan<select required value={planVersionId} onChange={event => setPlanVersionId(event.target.value)}><option value="">Choose a plan</option>{catalog.planVersions.map(plan => <option key={plan.id} value={plan.id}>{plan.name} · {plan.currency} {plan.monthlyPrice}/month</option>)}</select></label><label>Business profile<select value={profile} onChange={event => setProfile(event.target.value)}><option value="RESTAURANT">Restaurant</option><option value="RETAIL">Retail</option><option value="HYBRID">Hybrid</option></select></label><label>Active branches<input required min="1" type="number" value={branches} onChange={event => setBranches(event.target.value)} /></label><label>Additional Register terminals<input required min="0" type="number" value={terminals} onChange={event => setTerminals(event.target.value)} /></label>{otherAddOns.length > 0 ? <fieldset><legend>Optional add-ons</legend>{otherAddOns.map(addOn => <label className="check-field" key={addOn.versionId}><input type="checkbox" checked={addOns.includes(addOn.versionId)} onChange={event => setAddOns(selected => event.target.checked ? [...selected, addOn.versionId] : selected.filter(id => id !== addOn.versionId))} />{addOn.name} · {addOn.currency} {addOn.unitPrice}</label>)}</fieldset> : null}
+    {kitchenBase ? <KitchenCheckoutOptions base={kitchenBase} extra={kitchenExtra}
+      enabled={kitchenEnabled} extraScreens={extraKitchenScreens} onEnabled={setKitchenEnabled}
+      onExtraScreens={setExtraKitchenScreens} /> : null}<button className="button" disabled={busy || !planVersionId} type="submit">Create purchase summary</button></form> : <p>Loading available subscriptions…</p>}{invoice && <form className="checkout-card" onSubmit={saveBusiness}><h2>Business information</h2><p>Your workspace is created only after Safepay verifies the payment.</p>{Object.entries(business).map(([key, value]) => <label key={key}>{key === 'legalName' ? 'Legal business name' : key === 'displayName' ? 'Display name' : key === 'workspaceCode' ? 'Workspace code' : key === 'initialBranchName' ? 'First branch name' : key === 'timezone' ? 'Timezone' : 'Region'}<input required value={value} pattern={key === 'workspaceCode' ? '[a-z0-9]+(-[a-z0-9]+)*' : undefined} onChange={event => setBusiness({ ...business, [key]: event.target.value })} /></label>)}<button className="button button-secondary" disabled={busy} type="submit">{provisioningSaved ? 'Update business information' : 'Save business information'}</button></form>}{invoice && <div className="checkout-card purchase-summary"><h2>Subscription summary</h2><p>{invoice.currency} {invoice.total} due now. Renewal is handled by Safepay until you cancel through your RoPulse account.</p><button className="button" disabled={busy || !provisioningSaved} onClick={startCheckout} type="button">Continue to Safepay</button></div>}{message && <p className="form-message">{message}</p>}</section>;
 }
