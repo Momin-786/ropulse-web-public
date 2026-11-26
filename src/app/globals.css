@@ -42,3 +42,12 @@
 .owner-pairing-code { display: grid; gap: 6px; padding: 14px; background: var(--lavender); border-radius: 8px; }
 .owner-pairing-code code { font-size: clamp(1.1rem, 6vw, 1.65rem); font-weight: 700; overflow-wrap: anywhere; color: var(--plum); }
 @media (max-width: 800px) { .owner-account { grid-template-columns: minmax(0, 1fr); } }
+
+.owner-credential-fields { display: grid; gap: 12px; width: 100%; }
+.owner-credential-fields .text-button { min-height: 44px; }
+.owner-invitation-fields { border: 0; margin: 0; padding: 0; min-width: 0; }
+.owner-sign-in-credentials { display: grid; padding-top: 14px; border-top: 1px solid var(--border); }
+.owner-sign-in-credentials summary { cursor: pointer; min-height: 44px; font-weight: 600; }
+.owner-sign-in-credentials > :not(summary) { margin-top: 12px; }
+.owner-sign-in-credentials .owner-form fieldset,.owner-sign-in-credentials .owner-form label { width: 100%; }
+.owner-invitation-fields { display: grid; gap: 14px; }

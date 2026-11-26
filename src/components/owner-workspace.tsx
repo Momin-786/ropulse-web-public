@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
+import { OwnerAppCredentials } from './owner-app-credentials';
 
 export type OwnerWorkspace = { tenantId: string; workspaceCode: string; displayName: string };
 export type RegisterLicensing = {
@@ -106,6 +107,7 @@ export function OwnerSetup({ workspace, request, onManage }: {
         </fieldset>
         <button type="submit" className="button button-small" disabled={busy}>{busy ? 'Saving…' : 'Save setup confirmations'}</button>
       </form>}
+      <OwnerAppCredentials tenantPath={path} request={request} />
     </>}
     <div className="owner-actions">
       <button type="button" className="text-button" disabled={loading || busy} onClick={refresh}>Refresh setup status</button>

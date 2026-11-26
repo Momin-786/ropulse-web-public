@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ManageRegisters, OwnerSetup } from './owner-workspace';
+import { BackOfficePasswordField, GeneratedRegisterPin, PinLengthPicker } from './owner-app-credentials';
 import type { OwnerWorkspace, RegisterLicensing } from './owner-workspace';
 
 type Plan = { id: string; name: string; code: string; monthlyPrice: string; currency: string };
@@ -137,23 +138,60 @@ export function SubscriberPortal({ page }: { page: 'login' | 'signup' | 'account
 }
 
 function OwnerInvitation({ token, invitationToken }: { token: string; invitationToken: string }) {
-  const [pin, setPin] = useState('');
-  const [accepted, setAccepted] = useState(false);
+  const [generatedPin, setGeneratedPin] = useState('');
   const [message, setMessage] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+
   async function accept(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setBusy(true); setMessage(null);
+    if (busy || generatedPin) return;
+    const form = new FormData(event.currentTarget);
+    setBusy(true);
+    setMessage(null);
     try {
-      await request<void>('subscriber/owner-invitations/accept', { method: 'POST', body: JSON.stringify({ token: invitationToken, pin }) }, token);
-      setPin('');
-      setAccepted(true);
-      setMessage('Your owner PIN is set. Open your account to finish workspace setup and pair your first Register.');
-    } catch (error) { setMessage(error instanceof Error ? error.message : 'Owner setup could not be completed.'); } finally { setBusy(false); }
+      const pinLength = form.get('pinLength');
+      const result = await request<{ pin: string }>('subscriber/owner-invitations/activate', {
+        method: 'POST',
+        body: JSON.stringify({
+          token: invitationToken,
+          ...(pinLength ? { pinLength: Number(pinLength) } : {}),
+          adminPassword: form.get('adminPassword'),
+        }),
+      }, token);
+      if (!result?.pin) throw new Error('The PIN could not be displayed. Open Workspace Setup to generate a new one.');
+      setGeneratedPin(result.pin);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Owner setup could not be completed.');
+    } finally {
+      setBusy(false);
+    }
   }
-  return <section className="container account-shell"><div className="account-intro"><p className="eyebrow">Owner setup</p><h1>Create your owner PIN.</h1><p className="lead">This invitation is single-use and linked to the verified account that purchased the subscription. Your PIN is created by you and is never sent by RoPulse.</p></div><form className="account-card" onSubmit={accept}><h2>Complete workspace activation</h2><label>Owner invitation token<input required value={invitationToken} readOnly /></label><label>Create owner PIN<input required pattern="\d{4,12}" minLength={4} maxLength={12} inputMode="numeric" autoComplete="new-password" type="password" value={pin} onChange={event => setPin(event.target.value)} /></label>{message && <p className="form-message" role="status">{message}</p>}{accepted ? <a className="button" href="/account">Open my account</a> : <button className="button" disabled={busy || !invitationToken} type="submit">{busy ? 'Activating…' : 'Activate workspace'}</button>}</form></section>;
-}
 
+  return <section className="container account-shell">
+    <div className="account-intro">
+      <p className="eyebrow">Owner setup</p>
+      <h1>Set up your RoPulse sign-in</h1>
+      <p className="lead">Use your PIN at the Register and your Back Office password for Admin sign in in the Windows app.</p>
+    </div>
+    {generatedPin ? <div className="account-card">
+      <h2>Your Back Office password is set</h2>
+      <GeneratedRegisterPin pin={generatedPin} />
+      <a className="button" href="/account">I saved my PIN. Open account</a>
+    </div> : <form className="account-card" onSubmit={accept}>
+      <h2>Activate your workspace</h2>
+      {invitationToken ? <>
+        <fieldset className="owner-invitation-fields" disabled={busy}>
+          <legend className="sr-only">Set your credentials</legend>
+          <PinLengthPicker />
+          <BackOfficePasswordField required />
+        </fieldset>
+        <p>RoPulse generates your PIN. Choose a Back Office password with at least 12 characters.</p>
+        <button className="button" disabled={busy} type="submit">{busy ? 'Activating…' : 'Activate workspace'}</button>
+      </> : <p>Open the owner setup link from your invitation email to continue.</p>}
+      {message && <p className="form-message" role="alert">{message}</p>}
+    </form>}
+  </section>;
+}
 function AccountDashboard({ token, onSignOut }: { token: string; onSignOut: () => void }) {
   const router = useRouter();
   const [invoices, setInvoices] = useState<Invoice[]>([]);
