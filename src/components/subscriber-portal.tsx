@@ -1,16 +1,18 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { ManageRegisters, OwnerSetup } from './owner-workspace';
+import type { OwnerWorkspace, RegisterLicensing } from './owner-workspace';
 
 type Plan = { id: string; name: string; code: string; monthlyPrice: string; currency: string };
 type AddOn = { code: string; versionId: string; name: string; unitPrice: string; currency: string; scopeType: string; effectiveFrom?: string; effectiveUntil?: string | null };
 type Catalog = { planVersions: Plan[]; addOns: AddOn[] };
 type Invoice = { id: string; status: string; total: string; currency: string; expiresAt?: string };
 type Fulfilment = { invoiceStatus: string; fulfilmentStatus: string | null; recoveryMessage: string | null; provisioningJobId?: string | null };
-type Workspace = { tenantId: string; workspaceCode: string; displayName: string };
-type Licensing = { subscription: { id: string; status: string; provider?: string; planCode: string; currentPeriodEnd: string | null; cancellationEffectiveAt: string | null } };
+type Workspace = OwnerWorkspace;
+type Licensing = RegisterLicensing & { subscription: { id: string; status: string; provider?: string; planCode: string; currentPeriodEnd: string | null; cancellationEffectiveAt: string | null } };
 
 type KitchenBranch = { branchId: string; name: string; included: boolean; extraScreens: number };
 type KitchenCheckout = {
@@ -136,6 +138,7 @@ export function SubscriberPortal({ page }: { page: 'login' | 'signup' | 'account
 
 function OwnerInvitation({ token, invitationToken }: { token: string; invitationToken: string }) {
   const [pin, setPin] = useState('');
+  const [accepted, setAccepted] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   async function accept(event: FormEvent<HTMLFormElement>) {
@@ -143,36 +146,67 @@ function OwnerInvitation({ token, invitationToken }: { token: string; invitation
     setBusy(true); setMessage(null);
     try {
       await request<void>('subscriber/owner-invitations/accept', { method: 'POST', body: JSON.stringify({ token: invitationToken, pin }) }, token);
-      setMessage('Owner setup is complete. Sign in to your RoPulse workspace using your email, workspace code and new PIN.');
+      setPin('');
+      setAccepted(true);
+      setMessage('Your owner PIN is set. Open your account to finish workspace setup and pair your first Register.');
     } catch (error) { setMessage(error instanceof Error ? error.message : 'Owner setup could not be completed.'); } finally { setBusy(false); }
   }
-  return <section className="container account-shell"><div className="account-intro"><p className="eyebrow">Owner setup</p><h1>Create your owner PIN.</h1><p className="lead">This invitation is single-use and linked to the verified account that purchased the subscription. Your PIN is created by you and is never sent by RoPulse.</p></div><form className="account-card" onSubmit={accept}><h2>Complete workspace activation</h2><label>Owner invitation token<input required value={invitationToken} readOnly /></label><label>Create owner PIN<input required pattern="\d{4,12}" minLength={4} maxLength={12} inputMode="numeric" autoComplete="new-password" type="password" value={pin} onChange={event => setPin(event.target.value)} /></label>{message && <p className="form-message" role="status">{message}</p>}<button className="button" disabled={busy || !invitationToken} type="submit">{busy ? 'Activating…' : 'Activate workspace'}</button></form></section>;
+  return <section className="container account-shell"><div className="account-intro"><p className="eyebrow">Owner setup</p><h1>Create your owner PIN.</h1><p className="lead">This invitation is single-use and linked to the verified account that purchased the subscription. Your PIN is created by you and is never sent by RoPulse.</p></div><form className="account-card" onSubmit={accept}><h2>Complete workspace activation</h2><label>Owner invitation token<input required value={invitationToken} readOnly /></label><label>Create owner PIN<input required pattern="\d{4,12}" minLength={4} maxLength={12} inputMode="numeric" autoComplete="new-password" type="password" value={pin} onChange={event => setPin(event.target.value)} /></label>{message && <p className="form-message" role="status">{message}</p>}{accepted ? <a className="button" href="/account">Open my account</a> : <button className="button" disabled={busy || !invitationToken} type="submit">{busy ? 'Activating…' : 'Activate workspace'}</button>}</form></section>;
 }
 
 function AccountDashboard({ token, onSignOut }: { token: string; onSignOut: () => void }) {
   const router = useRouter();
   const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
+  const [workspaces, setWorkspaces] = useState<Workspace[]>();
   const [licenses, setLicenses] = useState<Record<string, Licensing>>({});
-  const [message, setMessage] = useState<string | null>(null);
+  const [licenseErrors, setLicenseErrors] = useState<Record<string, string>>({});
+  const [workspaceError, setWorkspaceError] = useState('');
+  const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
 
-  useEffect(() => {
-    request<Invoice[]>('subscriber/billing/invoices', {}, token).then(setInvoices).catch(error => setMessage(error.message));
-    request<Workspace[]>('subscriber/tenants', {}, token).then(async owned => {
-      setWorkspaces(owned);
-      const snapshots = await Promise.all(owned.map(async workspace => [workspace.tenantId, await request<Licensing>(`subscriber/tenants/${workspace.tenantId}/licensing`, {}, token)] as const));
-      setLicenses(Object.fromEntries(snapshots));
-    }).catch(error => setMessage(error.message));
+  const refreshLicensing = useCallback(async (tenantId: string, signal?: AbortSignal) => {
+    try {
+      const result = await request<Licensing>('subscriber/tenants/' + encodeURIComponent(tenantId) + '/licensing', { signal }, token);
+      if (signal?.aborted) return;
+      setLicenses(current => ({ ...current, [tenantId]: result }));
+      setLicenseErrors(current => ({ ...current, [tenantId]: '' }));
+    } catch (error) {
+      if (signal?.aborted) return;
+      setLicenseErrors(current => ({
+        ...current, [tenantId]: error instanceof Error ? error.message : 'Could not load licensing details.',
+      }));
+    }
   }, [token]);
 
-  async function cancel(subscriptionId: string) {
+  useEffect(() => {
+    const controller = new AbortController();
+    const options = { signal: controller.signal };
+    request<Invoice[]>('subscriber/billing/invoices', options, token).then(setInvoices).catch(error => {
+      if (!controller.signal.aborted) setMessage(error.message);
+    });
+    request<Workspace[]>('subscriber/tenants', options, token).then(owned => {
+      if (controller.signal.aborted) return;
+      setWorkspaces(owned);
+      for (const workspace of owned) void refreshLicensing(workspace.tenantId, controller.signal);
+    }).catch(error => {
+      if (!controller.signal.aborted) setWorkspaceError(error.message);
+    });
+    return () => controller.abort();
+  }, [token, refreshLicensing]);
+
+  async function cancel(tenantId: string, subscriptionId: string) {
     if (!window.confirm('Cancel future renewal? Access continues through the current paid period.')) return;
-    setBusy(true); setMessage(null);
+    setBusy(true);
+    setMessage('');
     try {
-      await request<void>(`subscriber/billing/subscriptions/${subscriptionId}/cancellation`, { method: 'POST' }, token);
+      await request<void>('subscriber/billing/subscriptions/' + encodeURIComponent(subscriptionId) + '/cancellation', { method: 'POST' }, token);
       setMessage('Cancellation was submitted. Safepay confirmation may take a moment to appear.');
-    } catch (error) { setMessage(error instanceof Error ? error.message : 'Cancellation could not be submitted.'); } finally { setBusy(false); }
+      await refreshLicensing(tenantId);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Cancellation could not be submitted.');
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function signOut() {
@@ -181,9 +215,72 @@ function AccountDashboard({ token, onSignOut }: { token: string; onSignOut: () =
     router.replace('/login');
   }
 
-  return <section className="container account-shell"><div className="account-intro"><p className="eyebrow">RoPulse account</p><h1>Your subscriptions and workspaces.</h1><p className="lead">Review commercial invoices, the current service period, and renewal status. Cancellation stops future Safepay renewal; it does not remove access already paid for.</p></div><div className="account-card"><h2>Invoices</h2>{invoices.length ? <ul>{invoices.map(invoice => <li key={invoice.id}><strong>{invoice.currency} {invoice.total}</strong> · {invoice.status}{invoice.expiresAt ? ` · expires ${new Date(invoice.expiresAt).toLocaleString()}` : ''}</li>)}</ul> : <p>No commercial invoices yet.</p>}<button className="text-button" type="button" onClick={() => router.push('/checkout')}>Buy or change a subscription</button></div><div className="account-card"><h2>Workspaces and renewal</h2>{workspaces.length ? workspaces.map(workspace => { const subscription = licenses[workspace.tenantId]?.subscription; return <div key={workspace.tenantId}><h3>{workspace.displayName}</h3><p>{workspace.workspaceCode}{subscription ? ` · ${subscription.planCode} · ${subscription.status}` : ''}</p>{subscription?.cancellationEffectiveAt ? <p>Cancellation takes effect {new Date(subscription.cancellationEffectiveAt).toLocaleDateString()}.</p> : subscription ? <><p>Paid through {subscription.currentPeriodEnd ? new Date(subscription.currentPeriodEnd).toLocaleDateString() : 'the current service period'}.</p>{subscription.provider === 'SAFEPAY' ? <button className="text-button" type="button" onClick={() => router.push(`/checkout?kitchenTenant=${encodeURIComponent(workspace.tenantId)}`)}>Manage Kitchen Display</button> : null}<button className="text-button" type="button" disabled={busy} onClick={() => void cancel(subscription.id)}>Cancel future renewal</button></> : <p>Loading subscription details…</p>}</div>; }) : <p>No active workspaces yet.</p>}</div>{message && <p className="form-message" role="status">{message}</p>}<button className="text-button" type="button" onClick={() => void signOut()}>Sign out</button></section>;
+  return <section className="container account-shell owner-account">
+    <div className="account-intro">
+      <p className="eyebrow">RoPulse account</p>
+      <h1>Your workspaces and billing</h1>
+    </div>
+    <div className="account-card owner-workspaces">
+      <h2>Workspaces</h2>
+      {workspaceError && <p className="form-message" role="alert">{workspaceError}</p>}
+      {!workspaces && !workspaceError && <p role="status">Loading workspaces…</p>}
+      {workspaces?.length === 0 && <p>No active workspaces yet.</p>}
+      {workspaces?.map(workspace => <WorkspaceCard
+        key={workspace.tenantId}
+        workspace={workspace}
+        licensing={licenses[workspace.tenantId]}
+        error={licenseErrors[workspace.tenantId]}
+        reload={() => refreshLicensing(workspace.tenantId)}
+      />)}
+    </div>
+    <div className="account-card owner-billing">
+      <h2>Billing</h2>
+      <h3>Invoices</h3>
+      {invoices.length ? <ul>{invoices.map(invoice => <li key={invoice.id}><strong>{invoice.currency} {invoice.total}</strong> · {invoice.status}{invoice.expiresAt ? ' · expires ' + new Date(invoice.expiresAt).toLocaleString() : ''}</li>)}</ul> : <p>No commercial invoices yet.</p>}
+      <button className="text-button" type="button" onClick={() => router.push('/checkout')}>Buy or change a subscription</button>
+      {workspaces?.map(workspace => {
+        const subscription = licenses[workspace.tenantId]?.subscription;
+        if (!subscription) return null;
+        return <div key={workspace.tenantId} className="owner-billing-entry">
+          <h3>{workspace.displayName}</h3>
+          <p>{subscription.planCode} · {subscription.status}</p>
+          {subscription.currentPeriodEnd && <p>Service period ends {new Date(subscription.currentPeriodEnd).toLocaleDateString()}.</p>}
+          {subscription.provider === 'SAFEPAY' && <div className="owner-actions">
+            <button className="text-button" type="button" onClick={() => router.push('/checkout?kitchenTenant=' + encodeURIComponent(workspace.tenantId))}>Manage Kitchen Display</button>
+            {subscription.cancellationEffectiveAt ? <p>Cancellation takes effect {new Date(subscription.cancellationEffectiveAt).toLocaleDateString()}.</p> :
+              <button className="text-button" type="button" disabled={busy} onClick={() => void cancel(workspace.tenantId, subscription.id)}>Cancel future renewal</button>}
+          </div>}
+        </div>;
+      })}
+      {message && <p className="form-message" role="status">{message}</p>}
+    </div>
+    <button className="text-button" type="button" onClick={() => void signOut()}>Sign out</button>
+  </section>;
 }
 
+function WorkspaceCard({ workspace, licensing, error, reload }: {
+  workspace: Workspace; licensing?: Licensing; error?: string; reload: () => Promise<void>;
+}) {
+  const [section, setSection] = useState<'setup' | 'registers'>();
+  const panelId = 'owner-workspace-' + workspace.tenantId;
+  return <article className="owner-workspace">
+    <div className="owner-workspace-heading">
+      <h3>{workspace.displayName}</h3>
+      <p>{workspace.workspaceCode}</p>
+    </div>
+    <div className="owner-actions">
+      <button className="button button-secondary button-small" type="button" aria-expanded={section === 'setup'} aria-controls={panelId} onClick={() => setSection(section === 'setup' ? undefined : 'setup')}>Set up workspace</button>
+      <button className="button button-small" type="button" aria-expanded={section === 'registers'} aria-controls={panelId} onClick={() => setSection(section === 'registers' ? undefined : 'registers')}>Manage Registers</button>
+    </div>
+    <div id={panelId} hidden={!section}>
+      {section === 'setup' && <OwnerSetup workspace={workspace} request={request} onManage={() => setSection('registers')} />}
+      {section === 'registers' && <>
+        {error && <p className="form-message" role="alert">{error}</p>}
+        <ManageRegisters workspace={workspace} licensing={licensing} request={request} reload={reload} />
+      </>}
+    </div>
+  </article>;
+}
 function KitchenSubscriptionCheckout({ token, tenantId }: { token: string; tenantId: string }) {
   const [configuration, setConfiguration] = useState<KitchenCheckout | null>(null);
   const [offers, setOffers] = useState<AddOn[]>([]);

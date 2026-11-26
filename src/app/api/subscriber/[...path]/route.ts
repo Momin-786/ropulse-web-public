@@ -38,7 +38,7 @@ async function proxy(request: NextRequest, context: { params: Promise<{ path: st
       body: ['GET', 'HEAD'].includes(request.method) ? undefined : await request.arrayBuffer(),
       cache: 'no-store',
     });
-    const responseHeaders = new Headers();
+    const responseHeaders = new Headers({ 'cache-control': 'private, no-store' });
     for (const name of ['content-type', 'x-correlation-id']) {
       const value = response.headers.get(name);
       if (value) responseHeaders.set(name, value);
