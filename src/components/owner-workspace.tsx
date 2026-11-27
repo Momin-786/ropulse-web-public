@@ -127,6 +127,11 @@ export function ManageRegisters({ workspace, licensing, request, reload }: {
   const [expired, setExpired] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
+  const [selectedDeviceId, setSelectedDeviceId] = useState<string>();
+  const [revokedDeviceIds, setRevokedDeviceIds] = useState<string[]>([]);
+  const [revoking, setRevoking] = useState(false);
+  const base = 'subscriber/tenants/' + encodeURIComponent(workspace.tenantId) + '/licensing';
   const branches = licensing?.branches;
   const branchId = branches?.some(branch => branch.branchId === selection) ? selection : branches?.[0]?.branchId;
   const restricted = licensing?.riskStatus?.pairingRestricted;
@@ -143,12 +148,12 @@ export function ManageRegisters({ workspace, licensing, request, reload }: {
 
   async function pair(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!branchId || restricted || busy || pairing) return;
+    if (!branchId || restricted || busy || pairing || revoking) return;
+    setNotice('');
     setBusy(true);
     setError('');
     setExpired(false);
     try {
-      const base = 'subscriber/tenants/' + encodeURIComponent(workspace.tenantId) + '/licensing';
       const result = await request<Pairing>(base + '/branches/' + encodeURIComponent(branchId) + '/pairing-sessions', { method: 'POST' });
       if (!result.code || result.branchId !== branchId || !Number.isFinite(Date.parse(result.expiresAt))) {
         throw new Error('The Register code could not be displayed. Refresh the Register list before trying again.');
@@ -158,6 +163,35 @@ export function ManageRegisters({ workspace, licensing, request, reload }: {
       setError(error instanceof Error ? error.message : 'A pairing code could not be created.');
     } finally {
       setBusy(false);
+    }
+  }
+
+  const selectedDevice = licensing?.devices.find(device =>
+    device.deviceId === selectedDeviceId && device.status === 'ACTIVE' && !revokedDeviceIds.includes(device.deviceId)
+  );
+  const selectedBranch = branches?.find(branch => branch.branchId === selectedDevice?.branchId);
+
+  async function revoke(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const reason = String(new FormData(event.currentTarget).get('reason') ?? '').trim();
+    if (!selectedDevice || !reason || revoking || busy) return;
+    const { deviceId, name } = selectedDevice;
+    setRevoking(true);
+    setError('');
+    setNotice('');
+    try {
+      await request<void>(base + '/devices/' + encodeURIComponent(deviceId) + '/revocation', {
+        method: 'POST',
+        body: JSON.stringify({ reason }),
+      });
+      setRevokedDeviceIds(current => [...current, deviceId]);
+      setSelectedDeviceId(undefined);
+      setNotice(name + ' was unpaired.');
+      await reload();
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'The Register could not be unpaired.');
+    } finally {
+      setRevoking(false);
     }
   }
 
@@ -172,7 +206,7 @@ export function ManageRegisters({ workspace, licensing, request, reload }: {
           {branches.map(branch => <option key={branch.branchId} value={branch.branchId}>{branch.name}</option>)}
         </select>
       </label>
-      <button className="button button-small" type="submit" disabled={busy || !!pairing || restricted}>{busy ? 'Creating code…' : 'Generate pairing code'}</button>
+      <button className="button button-small" type="submit" disabled={busy || !!pairing || restricted || revoking}>{busy ? 'Creating code…' : 'Generate pairing code'}</button>
     </form> : <p>{licensing ? 'No licensed branches are available for pairing.' : 'Register information is unavailable. Refresh to try again.'}</p>}
     {pairing && <div className="owner-pairing-code" role="status">
       <strong>One-time pairing code</strong>
@@ -184,8 +218,30 @@ export function ManageRegisters({ workspace, licensing, request, reload }: {
     {error && <p className="form-message" role="alert">{error}</p>}
     <h4>Paired Registers</h4>
     {licensing?.devices.length ? <ul className="owner-checklist">{licensing.devices.map(device => (
-      <li key={device.deviceId}><span>{device.name} · {branches?.find(branch => branch.branchId === device.branchId)?.name ?? device.platform}</span><strong>{device.status.toLowerCase().replaceAll('_', ' ')}</strong></li>
+      <li key={device.deviceId}>
+        <span>{device.name} · {branches?.find(branch => branch.branchId === device.branchId)?.name ?? device.platform}</span>
+        <strong>{revokedDeviceIds.includes(device.deviceId) ? 'revoked' : device.status.toLowerCase().replaceAll('_', ' ')}</strong>
+        {device.status === 'ACTIVE' && !revokedDeviceIds.includes(device.deviceId) && selectedDeviceId !== device.deviceId &&
+          <button className="button button-small button-secondary" type="button" disabled={revoking || busy}
+            aria-label={'Unpair ' + device.name}
+            onClick={() => { setSelectedDeviceId(device.deviceId); setError(''); setNotice(''); }}>
+            Unpair
+          </button>}
+      </li>
     ))}</ul> : <p>{licensing ? 'No Registers paired yet.' : 'Paired Registers are unavailable.'}</p>}
-    <button type="button" className="text-button" onClick={() => void reload()}>Refresh Registers</button>
+    {selectedDevice && <form className="owner-form" onSubmit={revoke} key={selectedDevice.deviceId}>
+      <h5>Unpair {selectedDevice.name}{selectedBranch && ' at ' + selectedBranch.name}?</h5>
+      <p>Sync any saved orders on this Register first. Unpairing removes the device’s access and frees its slot. Invoices remain in your history.</p>
+      <label>Reason for unpairing <input name="reason" required maxLength={250} disabled={revoking} /></label>
+      <div className="owner-actions">
+        <button className="button button-small button-secondary" type="button" disabled={revoking}
+          onClick={() => { setSelectedDeviceId(undefined); setError(''); }}>Cancel</button>
+        <button className="button button-small" type="submit" disabled={revoking || busy}>
+          {revoking ? 'Unpairing…' : 'Confirm unpair'}
+        </button>
+      </div>
+    </form>}
+    {notice && <p className="form-message" role="status">{notice}</p>}
+    <button type="button" className="text-button" disabled={revoking} onClick={() => void reload()}>Refresh Registers</button>
   </section>;
 }
