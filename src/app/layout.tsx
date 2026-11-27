@@ -12,6 +12,7 @@ import './hero-and-navigation.css';
 import './visual-guides.css';
 import './business-sectors.css';
 import './professional.css';
+import './service-design.css';
 export async function generateMetadata(): Promise<Metadata> {
   const site = getSite();
   const settings = await getPublicSettings();

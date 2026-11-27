@@ -15,7 +15,7 @@ try {
   assert.equal(response.status(), 200);
   assert.match(await page.title(), /ROPULSE/);
   assert.equal(await page.locator('h1').count(), 1);
-  assert.equal(await page.getByRole('heading', { name: 'Every order. One pulse.' }).count(), 1);
+  assert.equal(await page.getByRole('heading', { name: 'From the first order to the final receipt.' }).count(), 1);
   await page.screenshot({ path: 'tmp/qa/home-desktop.png', fullPage: true, caret: 'initial' });
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Desktop layout overflows');
   results.push('Desktop homepage: title, unique heading, layout width, screenshot');
@@ -124,7 +124,7 @@ try {
   assert.equal(await page.getByRole('button', { name: 'Menu' }).evaluate(node => node === document.activeElement), true);
   await page.screenshot({ path: 'tmp/qa/home-mobile.png', fullPage: true, caret: 'initial' });
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Mobile homepage overflows');
-  assert.ok(await page.locator('.home-product img').evaluate(img => img.complete && img.naturalWidth > 0), 'Real app hero image did not load');
+  assert.ok(await page.locator('.order-photo').evaluate(img => img.complete && img.naturalWidth > 0), 'Hero photograph did not load');
   await page.goto(`${base}/resources`, { waitUntil: 'load' });
   await page.screenshot({ path: 'tmp/qa/resources-mobile.png', fullPage: true });
   await page.goto(`${base}/docs`, { waitUntil: 'load' });

@@ -1,0 +1,102 @@
+/* Public pages and owner tools share the plum ink and warm paper of the register receipt. */
+.professional-home, .owner-desk, .account-shell {
+  --paper: #faf7f1;
+  --ink: #321e2a;
+  --rule: #cfc2be;
+  --display: Georgia, "Times New Roman", serif;
+}
+.professional-home { background: var(--paper); color: var(--ink); }
+.service-hero { background: #37172e; color: #fff6ee; overflow: hidden; }
+.service-spread { display: grid; grid-template-columns: .88fr 1.12fr; align-items: center; gap: clamp(24px, 4vw, 70px); padding-block: clamp(60px, 7vw, 120px); }
+.service-intro h1, .professional-home h2, .account-intro h1, .desk-heading h1 {
+  font-family: var(--display); font-weight: 400; letter-spacing: -.045em; text-wrap: balance;
+}
+.service-intro h1 { color: inherit; font-size: clamp(54px, 6.2vw, 98px); line-height: .99; margin: 0; }
+.service-kicker, .professional-home .home-eyebrow, .desk-heading .eyebrow {
+  font-size: 12px; font-weight: 650; text-transform: uppercase; letter-spacing: .12em;
+}
+.service-kicker { margin: 0 0 28px; color: #f4aecb; }
+.service-deck { max-width: 37ch; color: #e7d6df; font-size: 18px; line-height: 1.65; margin: 26px 0; }
+.service-hero .button, .service-contact-actions .button { background: #ffe3af; color: #36162c; border-color: transparent; }
+.service-intro .home-actions > a:last-child { color: white; text-decoration: underline; text-underline-offset: 5px; }
+/* A counter ticket overlaps the photograph like a slip on the pass. */
+.kitchen-scene { position: relative; display: block; isolation: isolate; min-width: 0; aspect-ratio: 1.24; margin: 12px 0 32px 20px; }
+.order-photo { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 48% 48% 3px 3px; }
+.kitchen-slip { position: absolute; left: -4%; bottom: -6%; width: clamp(165px, 16vw, 230px); padding: 16px 17px 23px;
+  background: #fff5df; color: #39261e; transform: rotate(-7deg); font: 12px/1.5 "Courier New", monospace;
+  clip-path: polygon(0 0,100% 0,100% 100%,95% 97%,90% 100%,85% 97%,80% 100%,75% 97%,70% 100%,65% 97%,60% 100%,55% 97%,50% 100%,45% 97%,40% 100%,35% 97%,30% 100%,25% 97%,20% 100%,15% 97%,10% 100%,5% 97%,0 100%); }
+.slip-brand { font: bold 24px/1.2 Georgia, serif; letter-spacing: -.06em; }
+.slip-meta { display: flex; justify-content: space-between; font-size: 10px; letter-spacing: .06em; padding-block: 6px; border-bottom: 1px dashed; margin-bottom: 10px; }
+.slip-note { display: block; padding-left: 1.8em; }
+.slip-bottom { border-bottom: 0; border-top: 1px dashed; margin: 9px 0 0; padding-bottom: 0; }
+.scene-tour { display: inline-flex; align-items: center; gap: 7px; position: absolute; right: 0; bottom: -28px; color: #fff4e7; font-size: 12px; }
+.kitchen-scene:hover .scene-tour { text-decoration: underline; }
+.professional-home .home-sectors, .professional-home .home-manual, .professional-home .home-faq { padding-block: clamp(48px, 7vw, 100px); }
+.professional-home .home-section-heading h2, .professional-home .home-manual h2,
+.professional-home .home-faq h2, .professional-home .home-contact h2 { font-size: clamp(36px, 4vw, 62px); line-height: 1.06; }
+.service-formats { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 6vw, 90px); align-items: stretch; }
+.format-photo { background: #613f31 url('/images/business/pizza.jpg') center / cover; min-height: 300px; }
+.service-formats ul { padding: 0; margin: 0; list-style: none; border-top: 1px solid var(--rule); }
+.service-formats li { border-bottom: 1px solid var(--rule); }
+.service-formats a { padding-block: 22px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.service-formats h3 { margin: 0 0 5px; font-size: 23px; }
+.service-formats p { margin: 0; color: var(--muted); }
+.service-formats a:hover h3, .home-manual-links a:hover { text-decoration: underline; }
+.professional-home .home-features { background: #ece4db; border: 0; }
+.professional-home .home-feature-grid { display: block; }
+.professional-home .home-feature { display: grid; grid-template-columns: 1fr 1fr; align-items: center; background: transparent; border: 0; border-top: 1px solid var(--rule); border-radius: 0; padding-block: 34px; gap: 5%; }
+.home-feature:nth-child(even) .home-feature-image { order: 1; }
+.professional-home .home-feature-image { padding: 0; background: transparent; aspect-ratio: 2.05; border: 1px solid var(--rule); border-radius: 4px; }
+.professional-home .home-feature-copy { padding: 12px 0; }
+.professional-home .home-feature-copy h3 { font-size: clamp(24px, 3vw, 38px); }
+.professional-home .home-manual-image { border-radius: 2px; background: #e5dbd0; }
+.professional-home .home-manual-image figcaption { background: #fffaf3; }
+.professional-home .home-faq { border-color: var(--rule); }
+.professional-home .home-contact { background: #37172e; border-radius: 2px; }
+.service-contact-actions { display: grid; justify-items: start; gap: 14px; flex-shrink: 0; }
+.service-contact-actions > a:last-child { color: #fff6ed; text-decoration: underline; }
+.account-shell { gap: clamp(24px, 5vw, 72px); }
+.account-shell .account-intro { padding: clamp(28px, 4vw, 64px); background: #37172e; border-radius: 4px; }
+.account-shell .account-intro h1, .account-shell .account-intro .eyebrow { color: #fff4e7; }
+.account-shell .account-intro .lead { color: #e9dce4; font-size: 17px; }
+.account-shell .account-intro h1, .desk-heading h1 { font-size: clamp(40px, 5vw, 78px); line-height: 1.05; }
+.account-card { min-width: 0; border-radius: 4px; padding: clamp(20px, 3vw, 40px); gap: 16px; box-shadow: none; }
+.account-card label { font-weight: 600; }
+.account-card :is(input, select) { max-width: 100%; min-width: 0; border-radius: 4px; }
+.owner-desk { padding-block: 48px 85px; }
+.desk-heading { display: flex; justify-content: space-between; gap: 16px; align-items: center; border-bottom: 2px solid var(--ink); margin-bottom: 32px; padding-bottom: 24px; }
+.desk-heading .eyebrow { margin: 0 0 12px; }
+.desk-heading h1 { margin: 0; }
+.desk-columns { display: grid; grid-template-columns: minmax(0, 2fr) minmax(230px, .85fr); gap: 24px; align-items: start; }
+.desk-main { display: grid; gap: 24px; min-width: 0; }
+.desk-main .account-card > div { border-top: 1px solid var(--rule); padding-top: 18px; overflow-wrap: anywhere; }
+.owner-desk .e-accounts-settings { border-top: 1px solid var(--rule); padding-block: 16px; }
+.owner-desk .e-accounts-settings summary { font-weight: 600; cursor: pointer; }
+.package-contact { background: #f7efe5; border-top: 4px solid #723653; }
+.package-contact .button { justify-self: start; }
+@media (max-width: 800px) {
+  .service-spread, .service-formats, .desk-columns, .account-shell { grid-template-columns: minmax(0, 1fr); }
+  .service-spread { padding-block: 44px 48px; gap: 32px; }
+  .service-intro h1 { max-width: 14ch; }
+  .service-register { box-shadow: 7px 9px 0 #713750; }
+  .format-photo { min-height: 0; aspect-ratio: 2.1; }
+  .service-formats { gap: 18px; }
+  .service-contact-actions { margin-top: 22px; }
+  .owner-desk, .account-shell { padding-block: 32px 52px; }
+}
+@media (max-width: 600px) {
+  .professional-home .home-feature { grid-template-columns: 1fr; gap: 12px; }
+  .home-feature:nth-child(even) .home-feature-image { order: 0; }
+  .service-register figcaption { font-size: 10px; }
+  .service-kicker { margin-bottom: 18px; }
+  .service-deck { font-size: 16px; }
+  .desk-heading { align-items: flex-start; }
+}
+
+.owner-account .owner-workspace { border-top: 1px solid #d6c9c4; padding-top: 20px; }
+.owner-account .owner-panel, .checkout-card { border-radius: 4px; }
+.account-shell.owner-account { gap: 24px; }
+.owner-account .account-intro { grid-column: 1 / -1; }
+.owner-account .owner-workspaces, .owner-account .owner-billing { min-width: 0; }
+.owner-account .owner-panel { background: #faf7f1; }
+@media (max-width: 800px) { .kitchen-scene { max-width: 570px; width: calc(100% - 12px); margin: 4px auto 36px; } }

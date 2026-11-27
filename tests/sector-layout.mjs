@@ -12,12 +12,12 @@ try {
     await page.setViewportSize({ width, height: 1050 });
     await page.locator('.business-sectors').scrollIntoViewIfNeeded();
     for (const image of await page.locator('.business-sectors img').all()) await image.evaluate(img => img.decode());
-    assert.equal(await page.locator('.sector-card').count(), 4);
+    assert.equal(await page.locator('.service-formats li a').count(), 4);
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-    for (const copy of await page.locator('.home-sector-copy').all()) assert.ok(await copy.evaluate(node => node.scrollWidth <= node.clientWidth), `Card text clips at ${width}px`);
+    for (const copy of await page.locator('.service-formats li').all()) assert.ok(await copy.evaluate(node => node.scrollWidth <= node.clientWidth), `Card text clips at ${width}px`);
     if ([390, 1440].includes(width)) await page.locator('.business-sectors').screenshot({ path: `tmp/qa/unified-sectors-${width}.png`, style: '.site-header{visibility:hidden}' });
   }
-  const link = page.locator('.sector-card').first();
+  const link = page.locator('.service-formats li a').first();
   await link.focus(); await page.keyboard.press('Enter'); await page.waitForURL('**/restaurant');
   assert.deepEqual(errors, []);
   await fs.writeFile('tmp/qa/sector-layout-results.json', JSON.stringify({ checkedAt: new Date().toISOString(), base, widths: [320, 361, 390, 768, 1024, 1440], result: 'PASS: no clipped artwork or horizontal overflow; logos decode; card keyboard navigation works; no runtime errors' }, null, 2));

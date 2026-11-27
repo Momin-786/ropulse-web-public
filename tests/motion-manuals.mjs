@@ -12,7 +12,7 @@ try {
   const errors = []; page.on('pageerror', error => errors.push(error.message));
   await page.goto(base, { waitUntil: 'load' });
   assert.equal(await page.locator('.page-transition').evaluate(node => getComputedStyle(node).animationName), 'none');
-  assert.equal(await page.locator('.home-product img').count(), 1);
+  assert.equal(await page.locator('.order-photo').count(), 1);
   await page.screenshot({ path: 'tmp/qa/hero-light-desktop.png', fullPage: false });
   await page.goto(`${base}/docs`, { waitUntil: 'load' });
   assert.equal(await page.locator('.guide-card').count(), 15);

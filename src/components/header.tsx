@@ -1,4 +1,5 @@
 'use client';
+import { demoHref } from '@/lib/sales';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -16,9 +17,9 @@ export function Header({ navigation }: { navigation: Array<{title: string; href:
       <button ref={button} type="button" className="menu-toggle" aria-expanded={open} aria-controls="main-navigation" onClick={() => setOpen(!open)}>{open ? 'Close' : 'Menu'}<span aria-hidden="true">{open ? '×' : '☰'}</span></button>
       <nav id="main-navigation" aria-label="Main navigation" className={open ? 'main-nav is-open' : 'main-nav'}>
         {links.map(([href, label]) => <Link key={href} href={href} aria-current={pathname === href || (href === '/resources' && ['/docs', '/tour', '/downloads', '/release-notes', '/get-started', '/support'].some(route => pathname === route || pathname.startsWith(`${route}/`))) ? 'page' : undefined}>{label}</Link>)}
-        <div className="mobile-nav-actions"><Link href="/login">Sign in</Link><Link href="/checkout" className="button button-small">Start subscription <Icon name="arrow" size={17} /></Link></div>
+        <div className="mobile-nav-actions"><Link href="/login">Sign in</Link><a href={demoHref} className="button button-small">Get a demo <Icon name="arrow" size={17} /></a></div>
       </nav>
-       <div className="header-actions"><Link href="/login" className="sign-in">Sign in</Link><Link href="/checkout" className="button button-small">Start subscription <Icon name="arrow" size={17} /></Link></div>
+       <div className="header-actions"><Link href="/login" className="sign-in">Sign in</Link><a href={demoHref} className="button button-small">Get a demo <Icon name="arrow" size={17} /></a></div>
     </div>
   </header>;
 }

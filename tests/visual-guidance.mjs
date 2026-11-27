@@ -14,16 +14,16 @@ try {
   for (const width of [320, 361, 390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 1050 });
     await page.goto(base, { waitUntil: 'load' });
-    await page.locator('.home-product img').evaluate(img => img.decode());
-    const screen = await page.locator('.home-product img').boundingBox();
-    const caption = await page.locator('.home-product figcaption').boundingBox();
+    await page.locator('.order-photo').evaluate(img => img.decode());
+    const screen = await page.locator('.order-photo').boundingBox();
+    const caption = await page.locator('.scene-tour').boundingBox();
     assert.ok(caption.y >= screen.y + screen.height - 1, 'Hero caption overlaps');
-    assert.equal(await page.locator('.home-sector-card').count(), 4);
+    assert.equal(await page.locator('.service-formats li a').count(), 4);
     for (const image of await page.locator('.home-sectors img').all()) {
       await image.scrollIntoViewIfNeeded();
       await image.evaluate(img => img.decode());
     }
-    for (const copy of await page.locator('.home-sector-copy').all()) assert.ok(await copy.evaluate(node => node.scrollWidth <= node.clientWidth));
+    for (const copy of await page.locator('.service-formats li').all()) assert.ok(await copy.evaluate(node => node.scrollWidth <= node.clientWidth));
     assert.equal(await page.locator('.home-retail-link').getAttribute('href'), '/retail');
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   }

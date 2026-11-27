@@ -13,13 +13,13 @@ try {
     await page.evaluate(() => document.fonts.ready);
     assert.ok(await page.evaluate(() => document.fonts.check('600 24px Manrope')));
     assert.equal(await page.locator('h1').count(), 1);
-    assert.equal(await page.locator('.home-sector-card').count(), 4);
+    assert.equal(await page.locator('.service-formats li a').count(), 4);
     for (const image of await page.locator('main img').all()) {
       await image.scrollIntoViewIfNeeded(); await image.evaluate(img => img.decode());
     }
-    assert.match(await page.locator('.home-product img').evaluate(img => img.currentSrc), width <= 700 ? /mobile-light\.png$/ : /desktop-light\.png$/);
+    assert.match(await page.locator('.order-photo').evaluate(img => img.currentSrc), /burger\.jpg$/);
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `Home overflows at ${width}`);
-    for (const card of await page.locator('.home-sector-copy, .home-feature-copy').all()) assert.ok(await card.evaluate(node => node.scrollWidth <= node.clientWidth), `Card clips at ${width}`);
+    for (const card of await page.locator('.service-formats li, .home-feature-copy').all()) assert.ok(await card.evaluate(node => node.scrollWidth <= node.clientWidth), `Card clips at ${width}`);
     await page.evaluate(() => { document.activeElement?.blur(); window.scrollTo({ top: 0, behavior: 'instant' }); });
     if ([390, 1440].includes(width)) await page.screenshot({ path: `tmp/qa/professional-home-${width}.png`, fullPage: true, caret: 'initial' });
     for (const route of ['/contact', '/resources', '/pricing', '/docs/hardware-and-printing']) {
